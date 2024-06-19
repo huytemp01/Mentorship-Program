@@ -1,0 +1,158 @@
+/* --------------------
+   Case Study Questions
+   --------------------*/
+
+-- 1. What is the total amount each customer spent at the restaurant?
+-- 2. How many days has each customer visited the restaurant?
+-- 3. What was the first item from the menu purchased by each customer?
+-- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+-- 5. Which item was the most popular for each customer?
+-- 6. Which item was purchased first by the customer after they became a member?
+-- 7. Which item was purchased just before the customer became a member?
+-- 8. What is the total items and amount spent for each member before they became a member?
+-- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+-- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+
+-- 1 
+SELECT m.customer_id, COALESCE(SUM(mn.price),0) AS total_sales
+FROM dannys_diner.members m LEFT JOIN dannys_diner.sales s
+		ON m.customer_id = s.customer_id
+        LEFT JOIN dannys_diner.menu mn 
+        ON s.product_id = mn.product_id
+GROUP BY m.customer_id
+ORDER BY total_sales;
+
+-- 2 
+SELECT m.customer_id, COALESCE(COUNT(DISTINCT s.order_date),0) AS total_visit
+FROM dannys_diner.members m LEFT JOIN dannys_diner.sales s
+		ON m.customer_id = s.customer_id
+GROUP BY m.customer_id;
+
+-- 3
+WITH customer_order AS (
+  SELECT 
+	s.customer_id,
+	mn.product_name,
+    DENSE_RANK() OVER 
+    (PARTITION BY s.customer_id 
+		ORDER BY s.order_date) 
+
+	FROM dannys_diner.sales s JOIN dannys_diner.menu mn
+		ON s.product_id = mn.product_id)
+   
+
+SELECT DISTINCT co.customer_id, co.product_name
+FROM customer_order co
+WHERE co.dense_rank = 1;
+
+--4
+
+SELECT 
+	mn.product_name, COUNT(s.order_date) 
+FROM dannys_diner.sales s JOIN dannys_diner.menu mn
+	ON s.product_id = mn.product_id
+GROUP BY mn.product_name
+LIMIT 1;
+
+--5
+WITH customer_product_count AS (
+SELECT 	s.customer_id, 
+  		s.product_id, 
+  		COUNT(s.customer_id) AS count_item,
+  		DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY  	COUNT(s.customer_id) DESC)
+FROM dannys_diner.sales s 
+GROUP BY s.customer_id, s.product_id
+  )
+
+SELECT cp.customer_id, mn.product_name, cp.count_item
+FROM customer_product_count cp JOIN dannys_diner.menu mn
+	ON cp.product_id = mn.product_id
+WHERE cp.dense_rank = 1
+ORDER BY cp.customer_id;
+
+--6
+WITH customer_order AS(
+SELECT m.customer_id , s.product_id, s.order_date,
+	DENSE_RANK() OVER (PARTITION BY m.customer_id ORDER BY s.order_date)
+FROM dannys_diner.members m JOIN dannys_diner.sales s
+	ON m.customer_id = s.customer_id AND m.join_date <= s.order_date
+)
+
+SELECT co.customer_id, mn.product_name
+FROM customer_order co JOIN dannys_diner.menu mn 
+	ON co.product_id = mn.product_id
+WHERE co.dense_rank = 1
+ORDER BY co.customer_id;
+
+--7
+WITH customer_order AS(
+SELECT m.customer_id , s.product_id, s.order_date,
+	DENSE_RANK() OVER (PARTITION BY m.customer_id ORDER BY s.order_date DESC)
+FROM dannys_diner.members m JOIN dannys_diner.sales s
+	ON m.customer_id = s.customer_id AND m.join_date > s.order_date
+)
+
+SELECT co.customer_id, mn.product_name
+FROM customer_order co JOIN dannys_diner.menu mn 
+	ON co.product_id = mn.product_id
+WHERE co.dense_rank = 1
+ORDER BY co.customer_id;
+
+---8 
+-- --8
+SELECT m.customer_id , COUNT(s.product_id) AS total_product, SUM(mn.price) AS total_price
+FROM dannys_diner.members m JOIN dannys_diner.sales s
+	ON m.customer_id = s.customer_id AND m.join_date > s.order_date
+    JOIN dannys_diner.menu mn 
+    ON s.product_id = mn.product_id
+GROUP BY m.customer_id
+ORDER BY m.customer_id
+
+--9
+WITH product_points AS (
+SELECT mn.product_id, 
+	CASE
+    	WHEN mn.product_name = 'sushi' THEN mn.price * 20
+        ELSE  mn.price * 10 END  AS points
+FROM dannys_diner.menu mn
+)
+  
+SELECT s.customer_id, SUM(pp.points)
+FROM dannys_diner.sales s JOIN product_points pp
+	ON s.product_id = pp.product_id
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+
+--10
+/* --------------------
+   Case Study Questions
+   --------------------*/
+
+-- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+
+-- Example Query:
+WITH A_B_order_before_february AS (
+  SELECT s.customer_id, s.order_date, s.product_id
+  FROM dannys_diner.sales s 
+  WHERE s.order_date <= '2021-01-31' AND s.customer_id IN  	('A','B') 
+),
+A_B_order_detail_before_february AS (
+SELECT f.customer_id, mn.product_name, mn.price,m.join_date, m.join_date + INTERVAL '6 days' AS last_promote_date , f.order_date    
+FROM A_B_order_before_february f JOIN dannys_diner.members m
+	ON f.customer_id = m.customer_id 
+	JOIN dannys_diner.menu mn 
+	ON f.product_id = mn.product_id
+)
+,A_B_points AS (
+SELECT bf.customer_id, 
+CASE 
+	WHEN (bf.order_date >= bf.join_date AND bf.order_date <= bf.last_promote_date) OR  bf.product_name = 'sushi' THEN price * 10 * 2
+    ELSE price * 10 
+    END AS points
+FROM A_B_order_detail_before_february bf
+)
+
+SELECT ab.customer_id , SUM(ab.points)
+FROM A_B_points ab
+GROUP BY ab.customer_id
+
