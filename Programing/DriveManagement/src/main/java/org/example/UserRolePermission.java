@@ -34,4 +34,9 @@ public class UserRolePermission {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+    public boolean hasCreatePermission() {
+        return role.hasCreatePermission();
+    }
 }

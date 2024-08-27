@@ -34,50 +34,32 @@ public class User {
     }
 
     public boolean add(Folder folder, Folder parent) {
-        if(this.hasAdminPermission(parent)){
+        if(hasCreatePermission(parent)){
             folder.addParent(parent);
-            parent.addChild(folder);
+//            parent.addChild(folder);
             return true;
         }
         return false;
     }
 
-    public boolean hasAdminPermission(FileSystemItem item) {
-        if(item.hasAdminPermissionFor(this)){
+
+    public boolean hasSharePermission(FileSystemItem item) {
+//        if(item.hasAdminPermissionFor(this)){
+//            return true;
+//        }
+        FileSystemItem temp = getParentHavePermission(item);
+        Role role = this.getRole(item);
+        if(role!=null && role.hasSharePermission(item)){
             return true;
         }
-        FileSystemItem closestPermissionItem = item.getParent();
-        while(!closestPermissionItem.equals(item)){
-            {
-                item = closestPermissionItem;
-                closestPermissionItem = item.getParent();
-            }
-        }
-        if(closestPermissionItem.hasAdminPermissionFor(this)){
-            return true;
-        }
-        if(!closestPermissionItem.getOwner().equals(this)){
-            return false;
+
+        if(temp instanceof Drive){
+            return this.isOwner((Drive) temp);
         }
 
-        return true;
-
+        return false;
     }
 
-//    private boolean isOwner(FileSystemItem item) {
-//        FileSystemItem closestPermissionItem = item.getParent();
-//        while(!closestPermissionItem.equals(item)){
-//            {
-//                item = closestPermissionItem;
-//                closestPermissionItem = item.getParent();
-//            }
-//        }
-//        if(!closestPermissionItem.getOwner().equals(this)){
-//            return false;
-//        }
-//
-//        return true;
-//    }
 
     private boolean isOwner(Drive drive) {
         return drive.getOwner().equals(this);
@@ -99,24 +81,92 @@ public class User {
 
 
     public boolean grantPermission(User user, Role role, FileSystemItem item) {
-        if(!this.hasAdminPermission(item)){
+        if(!this.hasSharePermission(item)){
             return false;
         }
-
         UserRolePermission permission = new UserRolePermission(user, role, item);
-//        rolePermissions.add(permission);
-
         item.setPermission(permission);
+        user.rolePermissions.add(permission);
 
         return true;
     }
 
-    public boolean add(File file, Folder cardGame) {
-        if(!this.hasAdminPermission(cardGame)){
+    public boolean add(File file, Folder folder) {
+        if(!this.hasCreatePermission(folder)){
             return false;
         }
 
-        cardGame.addChild(file);
+        folder.addChild(file);
         return true;
     }
+
+    private boolean hasCreatePermission(FileSystemItem folder) {
+
+        FileSystemItem temp = getParentHavePermission(folder);
+
+        Role role = this.getRole(temp);
+        if(role != null){
+            return role.hasCreatePermission();
+        }
+
+        if(temp instanceof Drive){
+            return this.isOwner((Drive) temp);
+        }
+
+        return false;
+    }
+
+    private FileSystemItem getParentHavePermission(FileSystemItem item) {
+        while(!item.equals(item.parent)){
+            if(this.getRole(item) != null){
+                break;
+            }
+            item = item.parent;
+        }
+        return item;
+    }
+
+    private Role getRole(FileSystemItem folder) {
+        for(UserRolePermission p:rolePermissions){
+            if(p.getItem().equals(folder)){
+                return p.getRole();
+            }
+        }
+        return null;
+    }
+
+    public boolean hasReadPermission(Folder folder) {
+        FileSystemItem temp = getParentHavePermission(folder);
+
+        Role role = this.getRole(temp);
+        if(role != null){
+            return role.hashReadPermission();
+        }
+
+        if(temp instanceof Drive){
+            return this.isOwner((Drive) temp);
+        }
+
+        return false;
+    }
+
+    public boolean hasDeletePermission(FileSystemItem item){
+        FileSystemItem temp = getParentHavePermission(item);
+
+        Role role = this.getRole(temp);
+        if(role != null){
+            return role.hasDeletePermission();
+        }
+
+        if(temp instanceof Drive){
+            return this.isOwner((Drive) temp);
+        }
+
+        return false;
+    }
+
+    public boolean hasAdminPermission(FileSystemItem item) {
+        return this.hasSharePermission(item);
+    }
+
 }

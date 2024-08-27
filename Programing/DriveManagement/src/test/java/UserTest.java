@@ -86,12 +86,12 @@ public class UserTest {
 
         huy.grantPermission(minh, new Admin(), cardGame);
 
-//        Assert.assertTrue(minh.hasAdminPermission(cardGame));
-        Assert.assertFalse(cSharp.hasAdminPermissionFor(minh));
+        Assert.assertTrue(minh.hasAdminPermission(cardGame));
+//        Assert.assertFalse(cSharp.hasAdminPermissionFor(minh));
     }
 
     @Test
-    public void test_user_have_reader_permission(){
+    public void test_user_have_reader_permission_can_read_a_file(){
         huy.add(drive);
         Folder cSharp = new Folder("C#");
         Folder cardGame = new Folder("CardGame");
@@ -100,7 +100,7 @@ public class UserTest {
 
         huy.grantPermission(minh, new Reader(), cSharp);
 
-        Assert.assertFalse(cSharp.hasAdminPermissionFor(minh));
+        Assert.assertTrue(minh.hasReadPermission(cSharp));
     }
 
     @Test
@@ -115,4 +115,127 @@ public class UserTest {
 
         Assert.assertFalse(minh.add(new File("main.cs"), cSharp));
     }
+
+    @Test
+    public void test_contributor_can_add_new_folder(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,drive);
+
+        huy.grantPermission(minh, new Contributor(), cSharp);
+        Assert.assertTrue(minh.add(new Folder("main"), cSharp));
+        Assert.assertFalse(minh.add(new Folder("tcs"), cardGame));
+    }
+
+    @Test
+    public void test_contributor_cannot_share(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,drive);
+
+        huy.grantPermission(minh, new Contributor(), cSharp);
+
+        User tien = new User("Tien");
+        minh.grantPermission(tien, new Reader(), cSharp);
+
+        Assert.assertFalse(tien.hasSharePermission(cSharp));
+    }
+
+    @Test
+    public void test_user_cannot_read_without_permission(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,drive);
+        huy.grantPermission(minh, new Contributor(), cSharp);
+
+        Assert.assertFalse(minh.hasDeletePermission(cardGame));
+        Assert.assertFalse(minh.hasReadPermission(cardGame));
+        Assert.assertFalse(minh.hasSharePermission(cardGame));
+    }
+
+    @Test
+    public void test_admin_can_add_new_item_to_subfolder(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        Folder src = new Folder("src");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,cSharp);
+        huy.add(src, cardGame);
+
+        User minh = new User("Minh");
+        huy.grantPermission(minh, new Admin(), cardGame);
+
+        Assert.assertTrue(minh.add(new File("abc.xml"), src));
+        Assert.assertTrue(minh.add(new Folder("ja"), src));
+        Assert.assertFalse(minh.add(new Folder("ja"), cSharp));
+    }
+
+    @Test
+    public void test_contributer_can_add_new_item_to_subfolder(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        Folder src = new Folder("src");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,cSharp);
+        huy.add(src, cardGame);
+
+        User minh = new User("Minh");
+        huy.grantPermission(minh, new Contributor(), cardGame);
+
+        Assert.assertTrue(minh.add(new File("abc.xml"), src));
+        Assert.assertTrue(minh.add(new Folder("ja"), src));
+        Assert.assertFalse(minh.add(new Folder("ja"), cSharp));
+    }
+
+    @Test
+    public void test_contributor_can_delete_file_from_folder(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        Folder src = new Folder("src");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,cSharp);
+        huy.add(src, cardGame);
+        File main = new File("main.cs");
+        huy.add(main, cardGame);
+
+        User minh = new User("Minh");
+        huy.grantPermission(minh, new Contributor(), drive);
+
+        Assert.assertTrue(minh.hasDeletePermission(main));
+        Assert.assertTrue(minh.hasDeletePermission(cSharp));
+    }
+
+
+    @Test
+    public void test_user_cannot_delete_file_without_permission(){
+        huy.add(drive);
+        Folder cSharp = new Folder("C#");
+        Folder cardGame = new Folder("CardGame");
+        Folder src = new Folder("src");
+        huy.add(cSharp,drive);
+        huy.add(cardGame,cSharp);
+        huy.add(src, cardGame);
+        File main = new File("main.cs");
+        huy.add(main, cardGame);
+
+        User minh = new User("Minh");
+        huy.grantPermission(minh, new Contributor(), cardGame);
+
+        Assert.assertTrue(minh.hasDeletePermission(main));
+        Assert.assertFalse(minh.hasDeletePermission(cSharp));
+    }
+
+
+
+
+
 }

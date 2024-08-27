@@ -19,6 +19,7 @@ public class Folder extends FileSystemItem {
 
     public void addChild(FileSystemItem fileSystemItem) {
         subItems.add(fileSystemItem);
+        fileSystemItem.parent = this;
     }
 
     public List<FileSystemItem> getSubItems() {
