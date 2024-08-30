@@ -22,6 +22,16 @@ public abstract class FileSystemItem {
         rolePermissions = new ArrayList<>();
     }
 
+//    public static void remove(File item) {
+//        FileSystemItem parent = item.parent;
+//        if(parent instanceof Folder){
+//            parent = (Folder) parent;
+//        }
+//        else if(parent instanceof Drive){
+//            parent = (Drive) parent;
+//        }
+//    }
+
     public void addParent(Drive parent){
         this.parent = parent;
         parent.addChild(this);
@@ -72,16 +82,12 @@ public abstract class FileSystemItem {
     }
 
 
-    public boolean hasAdminPermissionFor(User user) {
-        for(UserRolePermission p:rolePermissions){
-            if(p.getUser().equals(user) && p.getRole().getName().equals("Admin")){
-                return true;
-            }
-        }
 
-        return false;
+
+    public void grantPermission(User user, Role role) {
+        UserRolePermission permission = new UserRolePermission(user, role, this);
+        this.setPermission(permission);
+        user.getRolePermissions().add(permission);
     }
-
-
 }
 

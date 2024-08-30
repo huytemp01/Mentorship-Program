@@ -49,7 +49,7 @@ public class User {
 //        }
         FileSystemItem temp = getParentHavePermission(item);
         Role role = this.getRole(item);
-        if(role!=null && role.hasSharePermission(item)){
+        if(role!=null && role.hasSharePermission()){
             return true;
         }
 
@@ -80,14 +80,11 @@ public class User {
     }
 
 
-    public boolean grantPermission(User user, Role role, FileSystemItem item) {
+    public boolean share(User user, Role role, FileSystemItem item) {
         if(!this.hasSharePermission(item)){
             return false;
         }
-        UserRolePermission permission = new UserRolePermission(user, role, item);
-        item.setPermission(permission);
-        user.rolePermissions.add(permission);
-
+        item.grantPermission(user, role);
         return true;
     }
 
@@ -140,7 +137,7 @@ public class User {
 
         Role role = this.getRole(temp);
         if(role != null){
-            return role.hashReadPermission();
+            return role.hasReadPermission();
         }
 
         if(temp instanceof Drive){
@@ -169,4 +166,16 @@ public class User {
         return this.hasSharePermission(item);
     }
 
+    public  List<UserRolePermission> getRolePermissions() {
+        return this.rolePermissions;
+    }
+
+    public boolean delete(FileSystemItem item) {
+        if(!this.hasDeletePermission(item)){
+            return false;
+        }
+
+        FileSystemItem.remove(item);
+        return true;
+    }
 }

@@ -1,21 +1,29 @@
 package org.example;
 
-public abstract class Role {
-    private String roleName;
+public enum Role {
+    ADMIN, CONTRIBUTOR, READER;
 
-    public Role(String roleName) {
-        this.roleName = roleName;
+    public boolean hasCreatePermission(){
+        return this.equals(ADMIN) || this.equals(CONTRIBUTOR);
     }
 
-    public  String getName(){
-        return roleName;
+    public  boolean hasModifyPermission(){
+        return this.equals(ADMIN) || this.equals(CONTRIBUTOR);
     }
 
-    public abstract boolean hasCreatePermission();
+    public  boolean hasSharePermission(){
+        return this.equals(ADMIN);
+    }
 
-    public abstract boolean hasSharePermission(FileSystemItem item) ;
+    public  boolean hasReadPermission(){
+        return this.equals(ADMIN) || this.equals(CONTRIBUTOR) || this.equals(READER);
+    }
 
-    public abstract boolean hashReadPermission();
+    public boolean isAdmin() {
+        return this.equals(ADMIN);
+    }
 
-    public abstract boolean hasDeletePermission();
+    public boolean hasDeletePermission() {
+        return this.equals(ADMIN) || this.equals(CONTRIBUTOR);
+    }
 }
