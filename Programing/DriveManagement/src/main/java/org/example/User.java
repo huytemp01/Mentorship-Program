@@ -21,22 +21,30 @@ public class User {
         item.addOwer(this);
     }
 
-    public void add(FileSystemItem folder, Drive drive){
-        if(this.isOwner(drive)){
+    public boolean add(Folder folder, Drive drive){
+        if(this.isOwner(drive) && !FileSystemItem.isDuplicated(folder, drive)){
             folder.addParent(drive);
+            drive.addChild(folder);
+            return true;
         }
+
+        return false;
     }
 
-    public void add(File file, Drive drive){
-        if(this.isOwner(drive)){
+    public boolean add(File file, Drive drive){
+        if(this.isOwner(drive) && !FileSystemItem.isDuplicated(file,drive)){
             file.addParent(drive);
+            drive.addChild(file);
+            return true;
         }
+
+        return false;
     }
 
     public boolean add(Folder folder, Folder parent) {
-        if(hasCreatePermission(parent)){
+        if(hasCreatePermission(parent) && !FileSystemItem.isDuplicated(folder,parent)){
             folder.addParent(parent);
-//            parent.addChild(folder);
+            parent.addChild(folder);
             return true;
         }
         return false;
@@ -44,10 +52,7 @@ public class User {
 
 
     public boolean hasSharePermission(FileSystemItem item) {
-//        if(item.hasAdminPermissionFor(this)){
-//            return true;
-//        }
-        FileSystemItem temp = getParentHavePermission(item);
+        FileSystemItem temp = getMostRecentPermission(item);
         Role role = this.getRole(item);
         if(role!=null && role.hasSharePermission()){
             return true;
@@ -89,17 +94,17 @@ public class User {
     }
 
     public boolean add(File file, Folder folder) {
-        if(!this.hasCreatePermission(folder)){
-            return false;
+        if(this.hasCreatePermission(folder) && !FileSystemItem.isDuplicated(file, folder)){
+            folder.addChild(file);
+            return true;
         }
+        return false;
 
-        folder.addChild(file);
-        return true;
     }
 
-    private boolean hasCreatePermission(FileSystemItem folder) {
+    public boolean hasCreatePermission(FileSystemItem folder) {
 
-        FileSystemItem temp = getParentHavePermission(folder);
+        FileSystemItem temp = getMostRecentPermission(folder);
 
         Role role = this.getRole(temp);
         if(role != null){
@@ -113,7 +118,7 @@ public class User {
         return false;
     }
 
-    private FileSystemItem getParentHavePermission(FileSystemItem item) {
+    private FileSystemItem getMostRecentPermission(FileSystemItem item) {
         while(!item.equals(item.parent)){
             if(this.getRole(item) != null){
                 break;
@@ -133,7 +138,7 @@ public class User {
     }
 
     public boolean hasReadPermission(Folder folder) {
-        FileSystemItem temp = getParentHavePermission(folder);
+        FileSystemItem temp = getMostRecentPermission(folder);
 
         Role role = this.getRole(temp);
         if(role != null){
@@ -148,7 +153,7 @@ public class User {
     }
 
     public boolean hasDeletePermission(FileSystemItem item){
-        FileSystemItem temp = getParentHavePermission(item);
+        FileSystemItem temp = getMostRecentPermission(item);
 
         Role role = this.getRole(temp);
         if(role != null){
@@ -170,7 +175,7 @@ public class User {
         return this.rolePermissions;
     }
 
-    public boolean delete(FileSystemItem item) {
+    public boolean delete(File item) {
         if(!this.hasDeletePermission(item)){
             return false;
         }
@@ -178,4 +183,14 @@ public class User {
         FileSystemItem.remove(item);
         return true;
     }
+
+    public boolean delete(Folder item) {
+        if(!this.hasDeletePermission(item)){
+            return false;
+        }
+
+        FileSystemItem.remove(item);
+        return true;
+    }
+
 }
