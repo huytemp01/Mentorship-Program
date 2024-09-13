@@ -3,6 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -46,7 +47,13 @@ public class Linq<T> {
         return elements.stream().sorted(comparator.reversed()).collect(Collectors.toList());
     }
 
+
+
     public List<T> ofType(Class<T> className) {
-        return elements.stream().filter(e -> e.getClass().equals(className)).collect(Collectors.toList());
+        if(className == null){
+            return elements.stream().filter(e -> Objects.isNull(e)).collect(Collectors.toList());
+        }
+        return elements.stream().filter(e -> className.isInstance(e)).collect(Collectors.toList());
     }
+
 }
