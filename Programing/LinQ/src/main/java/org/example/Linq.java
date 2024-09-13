@@ -45,4 +45,8 @@ public class Linq<T> {
         Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         return elements.stream().sorted(comparator.reversed()).collect(Collectors.toList());
     }
+
+    public List<T> ofType(Class<T> className) {
+        return elements.stream().filter(e -> e.getClass().equals(className)).collect(Collectors.toList());
+    }
 }
