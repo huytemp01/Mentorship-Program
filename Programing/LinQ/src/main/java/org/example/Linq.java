@@ -42,6 +42,7 @@ public class Linq<T> {
         return elements.stream().sorted(comparator).collect(Collectors.toList());
     }
 
+
     public <U extends Comparable<? super U>> List<T> orderByDescending(Function<? super T, ? extends U> keyExtractor) {
         Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         return elements.stream().sorted(comparator.reversed()).collect(Collectors.toList());
@@ -56,4 +57,15 @@ public class Linq<T> {
         return elements.stream().filter(e -> className.isInstance(e)).collect(Collectors.toList());
     }
 
+    public long count(Predicate<T> predicate) {
+        return elements.stream().filter(predicate).count();
+    }
+
+    public long count() {
+        return elements.size();
+    }
+
+    public T first(Predicate<T> predicate) {
+        return elements.stream().filter(predicate).findFirst().get();
+    }
 }
