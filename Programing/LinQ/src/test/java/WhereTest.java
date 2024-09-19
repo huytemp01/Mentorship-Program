@@ -18,7 +18,7 @@ public class WhereTest {
         List<Integer> numbers = Arrays.asList(4,2,1,5,2,9);
         Linq<Integer> linq = Linq.of(numbers);
         //Act
-        List<Integer> result = linq.Where(x -> x == 2);
+        List<Integer> result = linq.Where(x -> x ==2).toList();
         //Assert
         int expected = 2;
         Assert.assertEquals(expected,result.size());
@@ -36,7 +36,7 @@ public class WhereTest {
         students.add(new Student(5,"Pham", "Quoc Khanh"));
         Linq<Student> linq = Linq.of(students);
         //Act
-        List<Student> result = linq.Where(s -> s.getId() == 2);
+        List<Student> result = linq.Where(s -> s.getId() == 2).toList();
         //Assert
         int expected = 1;
         Assert.assertEquals(expected,result.size());

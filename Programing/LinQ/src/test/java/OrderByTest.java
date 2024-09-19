@@ -34,6 +34,7 @@ public class OrderByTest {
         students.add(new Student(1,"Vu", "Duc Huy"));
         Linq<Student> linq = Linq.of(students);
         //Act
+//        List<Student> result = linq.orderByDescending(Student::getId);
         List<Student> result = linq.orderByDescending(Student::getId);
         //Assert
         Assert.assertEquals(result.get(0).getId(),5);

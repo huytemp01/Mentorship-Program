@@ -3,11 +3,9 @@ import org.example.Student;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class OfTypeTest {
     @Test
@@ -21,6 +19,7 @@ public class OfTypeTest {
         Linq linq = Linq.of(list);
         //Act
         List<String> result = linq.ofType(String.class);
+
         //Assert
         String[] expected = new String[]{"two","three"};
         Assert.assertArrayEquals(expected,result.toArray() );
