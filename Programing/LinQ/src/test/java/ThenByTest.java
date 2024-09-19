@@ -24,7 +24,7 @@ public class ThenByTest {
         //Assert
         Assert.assertEquals("Hoang", result.get(0).getFirstName());
         Assert.assertEquals("Vu", result.get(result.size() -1).getFirstName());
-        Assert.assertEquals("Duc Huy", result.get(result.size()-1).getLastName());
+        Assert.assertEquals("Hoang Nguyen", result.get(result.size()-1).getLastName());
     }
 
     @Test
@@ -43,6 +43,25 @@ public class ThenByTest {
         //Assert
         Assert.assertEquals("Hoang", result.get(0).getFirstName());
         Assert.assertEquals("Vu", result.get(result.size() -1).getFirstName());
+        Assert.assertEquals("Hoang Nguyen", result.get(result.size() -1).getLastName());
+    }
 
+    @Test
+    public void Test_OrderBy_firstname_thenBy_Age(){
+        //Arrange
+        List<Student> students = new ArrayList<>();
+        Student s1 = new Student(1,"Vu","Duc Huy",20);
+        Student s2 = new Student(2,"Nguyen","Xuan Thang",21);
+        Student s3 = new Student(3,"Tran","Duc Manh",25);
+        Student s4 = new Student(4,"Vu","Hoang Nguyen",15);
+        Student s5 = new Student(5,"Trinh","Van Quyet",40);
+        Student s6 = new Student(6,"Hoang","Ngoc Tu",11);
+        students.addAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
+        //Act
+        List<Student> result = Linq.from(students).orderBy(Student::getFirstName).thenBy(Student::getAge).toList();
+        //Assert
+        Assert.assertEquals("Hoang", result.get(0).getFirstName());
+        Assert.assertEquals("Vu", result.get(result.size() -1).getFirstName());
+        Assert.assertEquals("Duc Huy", result.get(result.size() -1).getLastName());
     }
 }

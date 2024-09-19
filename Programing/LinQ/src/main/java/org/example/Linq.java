@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 public class Linq<T> {
     private List<T> elements = new ArrayList<>();
-    private Map<?,List<T>> map = new HashMap<>();
+    private Map<Object,List<T>> map = new TreeMap<>();
 
     public static <T> Linq<T> from(List<T> elements){
         return new Linq<>(elements);
@@ -16,6 +16,11 @@ public class Linq<T> {
         for(T n:numbers){
             elements.add(n);
         }
+    }
+
+    private Linq(List<T> elements, Map<Object,List<T>> map){
+        this.map = map;
+        this.elements = elements;
     }
 
     public Linq<T> Where(Predicate<T> p) {
@@ -32,12 +37,32 @@ public class Linq<T> {
         return this.elements;
     }
 
+//    public <U extends Comparable<? super U>> Linq<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
+//        Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+//        List<T> result = new ArrayList<>(elements);
+//        result.sort(comparator);
+//        return new Linq<>(result);
+//    }
+
     public <U extends Comparable<? super U>> Linq<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
         Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         List<T> result = new ArrayList<>(elements);
         result.sort(comparator);
-        return new Linq<>(result);
+        for(T e:elements){
+            if(map.get(keyExtractor.apply(e)) == null){
+                Object value = keyExtractor.apply(e);
+                List<T> list = new ArrayList<>();
+                list.add(e);
+                map.put(value,list);
+            }
+            else{
+                List<T> list = map.get(keyExtractor.apply(e));
+                list.add(e);
+            }
+        }
+        return new Linq<>(result,map);
     }
+
 
 
     public <U extends Comparable<? super U>> Linq<T> orderByDescending(Function<? super T, ? extends U> keyExtractor) {
@@ -98,7 +123,7 @@ public class Linq<T> {
 
     public <U extends Comparable<? super U>> Linq<T> thenBy(Function<? super T, ? extends U> keyExtractor) {
         List<T> result = new ArrayList<>();
-        Comparator<T> comparator = (c2, c1) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+        Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         for(Object key: map.keySet()){
             map.get(key).sort(comparator);
             result.addAll(map.get(key));

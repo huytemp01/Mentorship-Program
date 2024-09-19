@@ -7,10 +7,27 @@ public class Student {
     private String firstName;
     private String lastName;
 
+    private int age;
+
     public Student(int id, String firstName, String lastName){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student(int id, String firstName, String lastName, int age){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public int getId() {
