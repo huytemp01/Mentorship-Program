@@ -3,13 +3,11 @@ package org.example;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
-import java.util.stream.Collectors;
 
 public class Linq<T> {
     private List<T> elements = new ArrayList<>();
 
-    public static <T> Linq<T> of(List<T> elements){
+    public static <T> Linq<T> from(List<T> elements){
         return new Linq<>(elements);
     }
 

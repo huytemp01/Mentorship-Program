@@ -18,7 +18,7 @@ public class FirstTest {
         numbers.add(1);
         numbers.add(2);
         numbers.add(7);
-        Linq<Integer> linq = Linq.of(numbers);
+        Linq<Integer> linq = Linq.from(numbers);
         int expected = 6;
         //Act
         int result = linq.first(e -> e > 5);
@@ -37,7 +37,7 @@ public class FirstTest {
         Student s5 = new Student(5,"Trinh","Van Quyet");
         Student s6 = new Student(6,"Hoang","Ngoc Tu");
         students.addAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         Student expected = s6;
         //Act
         Student result = linq.first(e -> e.getId() > 5);
@@ -56,7 +56,7 @@ public class FirstTest {
         Student s5 = new Student(5,"Trinh","Van Quyet");
         Student s6 = new Student(6,"Hoang","Ngoc Tu");
         students.addAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         Student result = linq.first(e -> e.getId() > 6);
 
@@ -72,7 +72,7 @@ public class FirstTest {
         numbers.add(1);
         numbers.add(2);
         numbers.add(7);
-        Linq<Integer> linq = Linq.of(numbers);
+        Linq<Integer> linq = Linq.from(numbers);
         int expected = 6;
         //Act
         int result = linq.first(e -> e > 9);

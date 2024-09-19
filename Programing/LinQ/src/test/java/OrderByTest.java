@@ -16,7 +16,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         List<Student> result = linq.orderBy(Student::getId).toList();
         //Assert
@@ -32,7 +32,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
 //        List<Student> result = linq.orderByDescending(Student::getId);
         List<Student> result = linq.orderByDescending(Student::getId).toList();
@@ -49,7 +49,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         List<Student> result = linq.orderBy(Student::getFirstName).toList();
         //Assert
@@ -65,7 +65,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         List<Student> result = linq.orderByDescending(Student::getFirstName).toList();
         //Assert
@@ -82,7 +82,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         List<Student> result = linq.Where(student -> student.getId()<4).orderBy(Student::getId).toList();
         //Assert
@@ -98,7 +98,7 @@ public class OrderByTest {
         students.add(new Student(2,"Nguyen", "Minh Duc"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(1,"Vu", "Duc Huy"));
-        Linq<Student> linq = Linq.of(students);
+        Linq<Student> linq = Linq.from(students);
         //Act
         List<Student> result = linq.Where(student -> student.getId()<4).orderBy(Student::getFirstName).toList();
         //Assert

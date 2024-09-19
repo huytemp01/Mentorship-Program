@@ -16,10 +16,8 @@ public class WhereTest {
     public void test_where_should_return_elements(){
         //Arrange
         List<Integer> numbers = Arrays.asList(4,2,1,5,2,9);
-        Linq<Integer> linq = Linq.of(numbers);
         //Act
-//        List<Integer> result = linq.Where(x -> x ==2).toList();
-        List<Integer> result = Linq.of(numbers).Where(x -> x ==2).toList();
+        List<Integer> result = Linq.from(numbers).Where(x -> x ==2).toList();
         //Assert
         int expected = 2;
         Assert.assertEquals(expected,result.size());
@@ -35,9 +33,8 @@ public class WhereTest {
         students.add(new Student(3,"Tran", "Thanh Man"));
         students.add(new Student(4,"Le", "Thuan Thien"));
         students.add(new Student(5,"Pham", "Quoc Khanh"));
-        Linq<Student> linq = Linq.of(students);
         //Act
-        List<Student> result = linq.Where(s -> s.getId() == 2).toList();
+        List<Student> result = Linq.from(students).Where(s -> s.getId() == 2).toList();
         //Assert
         int expected = 1;
         Assert.assertEquals(expected,result.size());

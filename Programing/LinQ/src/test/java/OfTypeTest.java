@@ -16,7 +16,7 @@ public class OfTypeTest {
         list.add("two");
         list.add("three");
         list.add(new Student(1,"Vu","Duc Huy"));
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<String> result = linq.ofType(String.class).toList();
 
@@ -34,7 +34,7 @@ public class OfTypeTest {
         list.add("three");
         Student huy = new Student(1,"Vu","Duc Huy");
         list.add(huy);
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<Student> result = linq.ofType(Student.class).toList();
         //Assert
@@ -52,7 +52,7 @@ public class OfTypeTest {
         list.add(2.5);
         Student huy = new Student(1,"Vu","Duc Huy");
         list.add(huy);
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<Number> result = linq.ofType(Number.class).toList();
         //Assert
@@ -70,7 +70,7 @@ public class OfTypeTest {
         list.add(2.5);
         Student huy = new Student(1,"Vu","Duc Huy");
         list.add(huy);
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<Double> result = linq.ofType(Double.class).toList();
         //Assert
@@ -90,7 +90,7 @@ public class OfTypeTest {
         list.add(2.5);
         Student huy = new Student(1,"Vu","Duc Huy");
         list.add(huy);
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<?> result = linq.ofType(null).toList();
         //Assert
@@ -111,7 +111,7 @@ public class OfTypeTest {
         list.add(huy);
         double[] doubles = new double[]{3.5,6.4,2.1};
         list.add(doubles);
-        Linq linq = Linq.of(list);
+        Linq linq = Linq.from(list);
         //Act
         List<int[]> result = linq.ofType(int[].class).toList();
         //Assert
