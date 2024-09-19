@@ -18,10 +18,9 @@ public class CountTest {
         numbers.add(1);
         numbers.add(2);
         numbers.add(7);
-        Linq<Integer> linq = Linq.from(numbers);
         int expected = 2;
         //Act
-        long count = linq.count(e -> e > 5);
+        long count = Linq.from(numbers).count(e -> e > 5);
         //Assert
         Assert.assertEquals(expected, count);
     }
@@ -35,10 +34,9 @@ public class CountTest {
         numbers.add(1);
         numbers.add(2);
         numbers.add(7);
-        Linq<Integer> linq = Linq.from(numbers);
         int expected = 5;
         //Act
-        long count = linq.count();
+        long count = Linq.from(numbers).count();
         //Assert
         Assert.assertEquals(expected,count);
     }
@@ -54,10 +52,9 @@ public class CountTest {
         Student s5 = new Student(5,"Trinh","Van Quyet");
         Student s6 = new Student(6,"Hoang","Ngoc Tu");
         students.addAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
-        Linq<Student> linq = Linq.from(students);
         long expected = 3;
         //Act
-        long count = linq.count(e -> e.getId() < 4);
+        long count = Linq.from(students).count(e -> e.getId() < 4);
         //Assert
         Assert.assertEquals(expected, count);
     }
@@ -73,10 +70,9 @@ public class CountTest {
         Student s5 = new Student(5,"Trinh","Van Quyet");
         Student s6 = new Student(6,"Hoang","Ngoc Tu");
         students.addAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
-        Linq<Student> linq = Linq.from(students);
         long expected = 1;
         //Act
-        long count = linq.count(e -> e.getId() < 4 && e.getId()%2 == 0);
+        long count = Linq.from(students).count(e -> e.getId() < 4 && e.getId()%2 == 0);
         //Assert
         Assert.assertEquals(expected, count);
     }
