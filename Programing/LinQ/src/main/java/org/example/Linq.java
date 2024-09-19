@@ -19,11 +19,6 @@ public class Linq<T> {
         }
     }
 
-
-//    public List<T> Where(Predicate<T> p) {
-//        return elements.stream().filter(p).collect(Collectors.toList());
-//    }
-
     public Linq<T> Where(Predicate<T> p) {
         List<T> result = new ArrayList<>();
         for(T e:elements){
@@ -38,24 +33,19 @@ public class Linq<T> {
         return this.elements;
     }
 
-    public List<T> orderBy(Comparator<T> comparator) {
-        return elements.stream().sorted(comparator).collect(Collectors.toList());
-    }
-
-    public List<T> orderBy(ToIntFunction<? super T> keyExtractor) {
-        Comparator<T> comparator = (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
-        return elements.stream().sorted(comparator).collect(Collectors.toList());
-    }
-
-    public <U extends Comparable<? super U>> List<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
+    public <U extends Comparable<? super U>> Linq<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
         Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
-        return elements.stream().sorted(comparator).collect(Collectors.toList());
+        List<T> result = new ArrayList<>(elements);
+        result.sort(comparator);
+        return new Linq<>(result);
     }
 
 
-    public <U extends Comparable<? super U>> List<T> orderByDescending(Function<? super T, ? extends U> keyExtractor) {
-        Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
-        return elements.stream().sorted(comparator.reversed()).collect(Collectors.toList());
+    public <U extends Comparable<? super U>> Linq<T> orderByDescending(Function<? super T, ? extends U> keyExtractor) {
+        Comparator<T> comparator = (c2, c1) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+        List<T> result = new ArrayList<>(elements);
+        result.sort(comparator);
+        return new Linq<>(result);
 
     }
 

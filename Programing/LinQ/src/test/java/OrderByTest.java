@@ -18,7 +18,7 @@ public class OrderByTest {
         students.add(new Student(1,"Vu", "Duc Huy"));
         Linq<Student> linq = Linq.of(students);
         //Act
-        List<Student> result = linq.orderBy(Student::getId);
+        List<Student> result = linq.orderBy(Student::getId).toList();
         //Assert
         Assert.assertEquals(result.get(0).getId(),1);
         Assert.assertEquals(result.get(result.size()-1).getId(), 5);
@@ -35,7 +35,7 @@ public class OrderByTest {
         Linq<Student> linq = Linq.of(students);
         //Act
 //        List<Student> result = linq.orderByDescending(Student::getId);
-        List<Student> result = linq.orderByDescending(Student::getId);
+        List<Student> result = linq.orderByDescending(Student::getId).toList();
         //Assert
         Assert.assertEquals(result.get(0).getId(),5);
         Assert.assertEquals(result.get(result.size()-1).getId(), 1);
@@ -51,7 +51,7 @@ public class OrderByTest {
         students.add(new Student(1,"Vu", "Duc Huy"));
         Linq<Student> linq = Linq.of(students);
         //Act
-        List<Student> result = linq.orderBy(Student::getFirstName);
+        List<Student> result = linq.orderBy(Student::getFirstName).toList();
         //Assert
         Assert.assertEquals("Le",result.get(0).getFirstName());
         Assert.assertEquals("Vu",result.get(result.size()-1).getFirstName() );
@@ -67,9 +67,42 @@ public class OrderByTest {
         students.add(new Student(1,"Vu", "Duc Huy"));
         Linq<Student> linq = Linq.of(students);
         //Act
-        List<Student> result = linq.orderByDescending(Student::getFirstName);
+        List<Student> result = linq.orderByDescending(Student::getFirstName).toList();
         //Assert
         Assert.assertEquals("Vu",result.get(0).getFirstName());
         Assert.assertEquals("Le",result.get(result.size()-1).getFirstName() );
+    }
+
+
+    @Test
+    public void test_Where_on_id_less_than_4_then_Order_by_id(){
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(3,"Tran", "Thanh Man"));
+        students.add(new Student(5,"Pham", "Quoc Khanh"));
+        students.add(new Student(2,"Nguyen", "Minh Duc"));
+        students.add(new Student(4,"Le", "Thuan Thien"));
+        students.add(new Student(1,"Vu", "Duc Huy"));
+        Linq<Student> linq = Linq.of(students);
+        //Act
+        List<Student> result = linq.Where(student -> student.getId()<4).orderBy(Student::getId).toList();
+        //Assert
+        Assert.assertEquals("Vu",result.get(0).getFirstName());
+        Assert.assertEquals("Tran",result.get(result.size()-1).getFirstName() );
+    }
+
+    @Test
+    public void test_Where_on_id_less_than_4_then_Order_by_firstname(){
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(3,"Tran", "Thanh Man"));
+        students.add(new Student(5,"Pham", "Quoc Khanh"));
+        students.add(new Student(2,"Nguyen", "Minh Duc"));
+        students.add(new Student(4,"Le", "Thuan Thien"));
+        students.add(new Student(1,"Vu", "Duc Huy"));
+        Linq<Student> linq = Linq.of(students);
+        //Act
+        List<Student> result = linq.Where(student -> student.getId()<4).orderBy(Student::getFirstName).toList();
+        //Assert
+        Assert.assertEquals("Nguyen", result.get(0).getFirstName());
+        Assert.assertEquals("Vu", result.get(result.size()-1).getFirstName());
     }
 }
