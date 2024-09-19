@@ -72,15 +72,30 @@ public class Linq<T> {
 
     }
 
-    public long count(Predicate<T> predicate) {
-        return elements.stream().filter(predicate).count();
+//    public long count(Predicate<T> predicate) {
+//        return elements.stream().filter(predicate).count();
+//    }
+
+    public long count(Predicate<T> predicate){
+        long count = 0;
+        for(T e:elements){
+            if(predicate.test(e)){
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public long count() {
         return elements.size();
     }
 
+//    public T first(Predicate<T> predicate) {
+//        return elements.stream().filter(predicate).findFirst().get();
+//    }
     public T first(Predicate<T> predicate) {
         return elements.stream().filter(predicate).findFirst().get();
     }
+
 }
