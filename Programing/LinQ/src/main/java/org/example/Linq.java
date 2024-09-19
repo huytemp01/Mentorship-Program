@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 public class Linq<T> {
     private List<T> elements = new ArrayList<>();
+    private Map<?,List<T>> map = new HashMap<>();
 
     public static <T> Linq<T> from(List<T> elements){
         return new Linq<>(elements);
@@ -95,4 +96,13 @@ public class Linq<T> {
         throw new NoSuchElementException();
     }
 
+    public <U extends Comparable<? super U>> Linq<T> thenBy(Function<? super T, ? extends U> keyExtractor) {
+        List<T> result = new ArrayList<>();
+        Comparator<T> comparator = (c2, c1) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+        for(Object key: map.keySet()){
+            map.get(key).sort(comparator);
+            result.addAll(map.get(key));
+        }
+        return new Linq<>(result);
+    }
 }
