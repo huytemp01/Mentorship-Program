@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Linq<T> {
     private List<T> elements = new ArrayList<>();
 
-    public static Linq of(List<? extends Object> elements){
+    public static <T> Linq<T> of(List<T> elements){
         return new Linq<>(elements);
     }
 
