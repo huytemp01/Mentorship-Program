@@ -18,7 +18,7 @@ public class OfTypeTest {
         list.add(new Student(1,"Vu","Duc Huy"));
         Linq linq = Linq.of(list);
         //Act
-        List<String> result = linq.ofType(String.class);
+        List<String> result = linq.ofType(String.class).toList();
 
         //Assert
         String[] expected = new String[]{"two","three"};
@@ -36,7 +36,7 @@ public class OfTypeTest {
         list.add(huy);
         Linq linq = Linq.of(list);
         //Act
-        List<Student> result = linq.ofType(Student.class);
+        List<Student> result = linq.ofType(Student.class).toList();
         //Assert
         Assert.assertEquals(huy, result.get(0));
     }
@@ -54,7 +54,7 @@ public class OfTypeTest {
         list.add(huy);
         Linq linq = Linq.of(list);
         //Act
-        List<Number> result = linq.ofType(Number.class);
+        List<Number> result = linq.ofType(Number.class).toList();
         //Assert
         Assert.assertTrue(result.containsAll(Arrays.asList(0, 12,2.5)));
     }
@@ -72,7 +72,7 @@ public class OfTypeTest {
         list.add(huy);
         Linq linq = Linq.of(list);
         //Act
-        List<Double> result = linq.ofType(Double.class);
+        List<Double> result = linq.ofType(Double.class).toList();
         //Assert
         Assert.assertTrue(result.containsAll(Arrays.asList(2.5)));
     }
@@ -92,7 +92,7 @@ public class OfTypeTest {
         list.add(huy);
         Linq linq = Linq.of(list);
         //Act
-        List<?> result = linq.ofType(null);
+        List<?> result = linq.ofType(null).toList();
         //Assert
         Assert.assertTrue(result.containsAll(Arrays.asList(null, null)));
     }
@@ -113,7 +113,7 @@ public class OfTypeTest {
         list.add(doubles);
         Linq linq = Linq.of(list);
         //Act
-        List<int[]> result = linq.ofType(int[].class);
+        List<int[]> result = linq.ofType(int[].class).toList();
         //Assert
         Assert.assertTrue(result.containsAll(Arrays.asList(ints)));
 

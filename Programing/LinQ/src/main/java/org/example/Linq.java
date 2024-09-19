@@ -60,18 +60,27 @@ public class Linq<T> {
     }
 
 
-
-    public List<T> ofType(Class<T> className) {
+    public Linq<T> ofType(Class<T> className) {
+        List<T> result = new ArrayList<>();
         if(className == null){
-            return elements.stream().filter(e -> Objects.isNull(e)).collect(Collectors.toList());
+            for(T e:elements){
+                if(Objects.isNull(e)){
+                    result.add(e);
+                }
+            }
+            return new Linq<>(result);
         }
-        return elements.stream().filter(e -> className.isInstance(e)).collect(Collectors.toList());
+       else {
+            for(T e:elements){
+                if(className.isInstance(e)){
+                    result.add(e);
+                }
+            }
+            return new Linq<>(result);
+        }
 
     }
 
-//    public long count(Predicate<T> predicate) {
-//        return elements.stream().filter(predicate).count();
-//    }
 
     public long count(Predicate<T> predicate){
         long count = 0;
@@ -87,7 +96,7 @@ public class Linq<T> {
     public long count() {
         return elements.size();
     }
-    
+
     public T first(Predicate<T> predicate) {
         for(T e:elements){
             if(predicate.test(e)){
