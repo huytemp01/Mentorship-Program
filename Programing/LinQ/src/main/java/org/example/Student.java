@@ -7,12 +7,21 @@ public class Student {
     private String firstName;
     private String lastName;
 
+    private Gender gender;
+
     private int age;
 
     public Student(int id, String firstName, String lastName){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student(int id, String firstName, String lastName, Gender gender){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
     }
 
     public Student(int id, String firstName, String lastName, int age){
@@ -54,6 +63,14 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,4 +83,5 @@ public class Student {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
     }
+
 }

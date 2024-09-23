@@ -37,13 +37,6 @@ public class Linq<T> {
         return this.elements;
     }
 
-//    public <U extends Comparable<? super U>> Linq<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
-//        Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
-//        List<T> result = new ArrayList<>(elements);
-//        result.sort(comparator);
-//        return new Linq<>(result);
-//    }
-
     public <U extends Comparable<? super U>> Linq<T> orderBy(Function<? super T, ? extends U> keyExtractor) {
         Comparator<T> comparator = (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         List<T> result = new ArrayList<>(elements);
@@ -129,5 +122,23 @@ public class Linq<T> {
             result.addAll(map.get(key));
         }
         return new Linq<>(result);
+    }
+
+    public <U> Map<U, List<T>> groupBy(Function<T,U> functions) {
+        Map<U, List<T>> result = new HashMap<>();
+        for(T e:elements){
+            U key = functions.apply(e);
+            if(result.get(key) == null){
+                List<T> values = new ArrayList<>();
+                values.add(e);
+                result.put(key,values);
+            }
+            else {
+                List<T> values = result.get(key);
+                values.add(e);
+            }
+        }
+
+        return result;
     }
 }
