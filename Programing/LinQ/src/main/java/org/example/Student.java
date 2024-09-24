@@ -10,6 +10,16 @@ public class Student {
     private Gender gender;
 
     private int age;
+    private Deparment deparment;
+
+    public Student(int id, String firstName, String lastName, Deparment deparmentId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.deparment = deparmentId;
+    }
+
+
 
     public Student(int id, String firstName, String lastName){
         this.id = id;
@@ -29,6 +39,14 @@ public class Student {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    public Deparment getDeparment() {
+        return deparment;
+    }
+
+    public void setDeparment(Deparment deparment) {
+        this.deparment = deparment;
     }
 
     public int getAge() {
