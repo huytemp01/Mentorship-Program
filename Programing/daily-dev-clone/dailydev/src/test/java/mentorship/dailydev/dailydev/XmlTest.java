@@ -32,18 +32,6 @@ public class XmlTest {
     }
 
     @Test
-    public void Test_get_title_from_first_item() throws ParserConfigurationException, IOException, SAXException {
-        //Arrange
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = builder.parse(new File("src/test/java/mentorship/dailydev/dailydev/Americas.xml"));
-        NodeList list = doc.getElementsByTagName("item");
-        //Act
-        Node first = list.item(0);
-        NodeList childList = first.getChildNodes();
-
-    }
-
-    @Test
     public void Test_get_title_from_Item() throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.parse(new File("src/test/java/mentorship/dailydev/dailydev/Americas.xml"));
