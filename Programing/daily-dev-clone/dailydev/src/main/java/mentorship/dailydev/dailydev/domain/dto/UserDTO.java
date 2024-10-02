@@ -6,11 +6,24 @@ public class UserDTO {
     private String password;
     private String userName;
 
+    private String oldPassword;
+    private String newPassword;
+
+    public UserDTO(){}
+
     public UserDTO(int id, String email, String password, String userName) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.userName = userName;
+    }
+
+    public UserDTO(int id, String email, String userName, String oldPassword, String newPassword) {
+        this.id = id;
+        this.email = email;
+        this.userName = userName;
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
     }
 
     public int getId() {
@@ -27,5 +40,13 @@ public class UserDTO {
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
     }
 }

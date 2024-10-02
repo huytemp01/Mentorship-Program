@@ -13,4 +13,24 @@ public class UserRepositoryImpl implements UserRepository{
     public void save(User user) {
         userDao.save(user);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        userDao.deleteByEmail(email);
+    }
+
+    @Override
+    public User getById(int id) {
+        return userDao.getById(id);
+    }
+
+    @Override
+    public void updatePassword(int id, String newPassword) {
+         userDao.updatePassword(id, newPassword);
+    }
 }

@@ -13,4 +13,37 @@ public class UserServiceImpl implements UserService{
     public void add(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public boolean isExist(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        userRepository.deleteByEmail(email);
+    }
+
+    @Override
+    public String changePassword(int id, String newPassword, String oldPassword) {
+        User user = userRepository.getById(id);
+        if(user == null){
+            return "User don't exist";
+        }
+        if(!user.getPassword().equals(oldPassword)){
+            return "Current password don't  match";
+        }
+
+        userRepository.updatePassword(id, newPassword);
+        return "success";
+    }
 }

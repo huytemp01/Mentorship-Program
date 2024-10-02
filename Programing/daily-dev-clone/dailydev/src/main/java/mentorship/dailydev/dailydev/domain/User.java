@@ -13,6 +13,8 @@ public class User {
         this.userName = userName;
     }
 
+
+
     public int getId() {
         return id;
     }
@@ -43,5 +45,9 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public static boolean isPasswordValid(String newPassword) {
+        return newPassword != null && !newPassword.equals("");
     }
 }
