@@ -29,14 +29,15 @@ GO
 CREATE TABLE [Post] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [thumbnail] text,
-  [title] nvarchar(100),
+  [title] nvarchar(50),
   [content] text,
   [images] text,
   [link] text,
   [count_upvote] int,
   [count_downvote] int,
   [author_id] int,
-  [post_type] int
+  [post_type] int,
+  [rss_link_id] int
 )
 GO
 
@@ -114,8 +115,8 @@ GO
 
 CREATE TABLE [RssLink_Category] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [rsslink_id] int,
-  [category_id] int
+  [category_id] int,
+  [rsslink_id] int
 )
 GO
 
@@ -123,6 +124,13 @@ CREATE TABLE [User_RssLink] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [rsslink_id] int,
   [user_id] int
+)
+GO
+
+CREATE TABLE [User_Follow_Source] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [user_id] int,
+  [source_id] int
 )
 GO
 
@@ -139,6 +147,9 @@ ALTER TABLE [Post] ADD FOREIGN KEY ([author_id]) REFERENCES [Users] ([id])
 GO
 
 ALTER TABLE [Post] ADD FOREIGN KEY ([post_type]) REFERENCES [PostType] ([id])
+GO
+
+ALTER TABLE [Post] ADD FOREIGN KEY ([rss_link_id]) REFERENCES [RssLink] ([id])
 GO
 
 ALTER TABLE [Post_Tag] ADD FOREIGN KEY ([tag_id]) REFERENCES [Tag] ([id])
@@ -186,14 +197,20 @@ GO
 ALTER TABLE [RssLink] ADD FOREIGN KEY ([source_id]) REFERENCES [Source] ([id])
 GO
 
-ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([rsslink_id]) REFERENCES [RssLink] ([id])
+ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([category_id]) REFERENCES [Category] ([id])
 GO
 
-ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([category_id]) REFERENCES [Category] ([id])
+ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([rsslink_id]) REFERENCES [RssLink] ([id])
 GO
 
 ALTER TABLE [User_RssLink] ADD FOREIGN KEY ([rsslink_id]) REFERENCES [RssLink] ([id])
 GO
 
 ALTER TABLE [User_RssLink] ADD FOREIGN KEY ([user_id]) REFERENCES [Users] ([id])
+GO
+
+ALTER TABLE [User_Follow_Source] ADD FOREIGN KEY ([user_id]) REFERENCES [Users] ([id])
+GO
+
+ALTER TABLE [User_Follow_Source] ADD FOREIGN KEY ([source_id]) REFERENCES [Source] ([id])
 GO

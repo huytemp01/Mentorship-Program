@@ -13,7 +13,7 @@ import java.io.IOException;
 @RestController
 public class RssController {
     private RssService rssService;
-    @PostMapping("rss/add")
+    @PostMapping("rss")
     public String add(@RequestBody String rssXml) throws ParserConfigurationException, IOException, SAXException {
         // Insert links and its category into database.
         rssService.addNewSource(rssXml);

@@ -1,8 +1,7 @@
 package mentorship.dailydev.dailydev;
 
-import mentorship.dailydev.dailydev.domain.Article;
+import mentorship.dailydev.dailydev.domain.Post;
 import mentorship.dailydev.dailydev.domain.Category;
-import mentorship.dailydev.dailydev.util.XmlReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -38,7 +37,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        String title = Article.getTitle(first);
+        String title = Post.getTitle(first);
         //Assert
         String expected = "Studying at an English-Speaking University? In Quebec, That May Cost Extra.";
         Assert.assertEquals(expected, title);
@@ -51,7 +50,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        String title = Article.getLink(first);
+        String title = Post.getLink(first);
         //Assert
         String expected = "https://www.nytimes.com/2024/09/29/world/canada/quebec-mcgill-concordia-tuition.html";
         Assert.assertEquals(expected, title);
@@ -64,7 +63,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        String title = Article.getDescription(first);
+        String title = Post.getDescription(first);
         //Assert
         String expected = "Quebec says a new policy to charge some students higher tuition at top universities in Montreal is needed to preserve the province’s French identity.";
         Assert.assertEquals(expected, title);
@@ -78,7 +77,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        LocalDateTime publicDate = Article.getPublicDate(first);
+        LocalDateTime publicDate = Post.getPublicDate(first);
         //Assert
         String dateTimeString = "Sun, 29 Sep 2024 18:50:01 +0000";
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
@@ -95,7 +94,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        String creator = Article.getCreator(first);
+        String creator = Post.getCreator(first);
         //Assert
         String expected = "Vjosa Isai and Nasuna Stuart-Ulin";
 
@@ -110,7 +109,7 @@ public class XmlTest {
         NodeList list = doc.getElementsByTagName("item");
         Node first = list.item(0);
         //Act
-        List<Category> categoryList = Article.getCategories(first);
+        List<Category> categoryList = Post.getCategories(first);
         //Assert
         int expected = 10;
         Assert.assertEquals(expected, categoryList.size());
@@ -123,9 +122,9 @@ public class XmlTest {
         Document doc = builder.parse(new File("src/test/java/mentorship/dailydev/dailydev/Americas.xml"));
         NodeList list = doc.getElementsByTagName("item");
         //Act
-        List<Article> articleList = Article.parse(list);
+        List<Post> postList = Post.parse(list);
         //Assert
         int expected = 20;
-        Assert.assertEquals(expected, articleList.size());
+        Assert.assertEquals(expected, postList.size());
     }
 }

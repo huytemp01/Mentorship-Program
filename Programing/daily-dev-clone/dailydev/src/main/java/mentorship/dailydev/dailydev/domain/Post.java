@@ -1,14 +1,19 @@
 package mentorship.dailydev.dailydev.domain;
 
+import mentorship.dailydev.dailydev.util.XmlReader;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Article {
+public class Post {
     private int id;
     private String title;
     private String link;
@@ -17,9 +22,9 @@ public class Article {
     private LocalDateTime publicDateTime;
     private List<Category> categories;
 
-    public Article(){}
+    public Post(){}
 
-    public Article(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
+    public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
         this.title = title;
         this.link = link;
         this.description = description;
@@ -28,7 +33,63 @@ public class Article {
         this.categories = categories;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public LocalDateTime getPublicDateTime() {
+        return publicDateTime;
+    }
+
+    public void setPublicDateTime(LocalDateTime publicDateTime) {
+        this.publicDateTime = publicDateTime;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    ///////////////////////////////////
     public static String getTitle(Node item) {
         NodeList childNodes = item.getChildNodes();
         Node current;
@@ -106,23 +167,32 @@ public class Article {
         return categories;
     }
 
-    public static List<Article> parse(NodeList items) {
-        List<Article> articles = new ArrayList<>();
+    public static List<Post> parse(NodeList items) {
+        List<Post> posts = new ArrayList<>();
         for(int i = 0; i<items.getLength(); i++){
-            Article a = Article.parse(items.item(i));
-            articles.add(a);
+            Post a = Post.parse(items.item(i));
+            posts.add(a);
         }
-        return articles;
+        return posts;
     }
 
-    public static Article parse(Node item){
-        String title = Article.getTitle(item);
-        String link = Article.getLink(item);
-        String description = Article.getDescription(item);
-        LocalDateTime pubDate = Article.getPublicDate(item);
-        String creator = Article.getCreator(item);
-        List<Category> categories = Article.getCategories(item);
+    public static Post parse(Node item){
+        String title = Post.getTitle(item);
+        String link = Post.getLink(item);
+        String description = Post.getDescription(item);
+        LocalDateTime pubDate = Post.getPublicDate(item);
+        String creator = Post.getCreator(item);
+        List<Category> categories = Post.getCategories(item);
 
-        return new Article(title,link,description, creator, pubDate, categories);
+        return new Post(title,link,description, creator, pubDate, categories);
+    }
+
+    public static List<Post> parse(String xmlUrl) throws IOException, SAXException, ParserConfigurationException {
+//        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+//        Document doc = builder.parse(xmlUrl);
+//        doc.getDocumentElement().normalize();
+        Document doc = XmlReader.readXml(xmlUrl);
+        NodeList list = doc.getElementsByTagName("item");
+        return Post.parse(list);
     }
 }
