@@ -24,6 +24,11 @@ public class Post {
 
     public Post(){}
 
+    public Post(int id, String link) {
+        this.id = id;
+        this.link = link;
+    }
+
     public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
         this.title = title;
         this.link = link;
