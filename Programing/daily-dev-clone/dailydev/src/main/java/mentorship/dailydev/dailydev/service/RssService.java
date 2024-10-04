@@ -6,5 +6,5 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public interface RssService {
-    public void addNewSource(String rssXml) throws ParserConfigurationException, IOException, SAXException;
+    public String addNewSource(String rssXml) throws ParserConfigurationException, IOException, SAXException;
 }

@@ -15,7 +15,7 @@ public class PostDao {
 
     public void insert(List<Post> posts) {
         for(Post p:posts){
-            template.update("INSERT INTO post (title, link, author) VALUES(?,?,?)",p.getTitle(), p.getLink(), p.getCreatorName());
+            template.update("INSERT INTO post (title, link) VALUES(?,?)",p.getTitle(), p.getLink());
         }
     }
 }

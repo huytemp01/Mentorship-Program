@@ -24,11 +24,6 @@ public class Post {
 
     public Post(){}
 
-    public Post(int id, String link) {
-        this.id = id;
-        this.link = link;
-    }
-
     public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
         this.title = title;
         this.link = link;
@@ -138,7 +133,7 @@ public class Post {
             current = childNodes.item(i);
             if(current.getNodeType() == Node.ELEMENT_NODE && current.getNodeName().equals("pubDate")){
                 String dateTimestring =  current.getTextContent();
-                DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
+                DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss ZZZ");
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimestring, dateTimeFormat);
                 return dateTime;
             }

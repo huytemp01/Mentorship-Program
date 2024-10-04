@@ -12,4 +12,9 @@ public class SourceRepositoryImpl implements SourceRepository{
     public void save(String domain) {
         sourceDao.insert(domain);
     }
+
+    @Override
+    public boolean isExist(String domain) {
+        return sourceDao.isExist(domain);
+    }
 }

@@ -12,4 +12,9 @@ public class RssRepositoryImpl implements RssRepository{
     public void save(String rssXml) {
         rssDao.insert(rssXml);
     }
+
+    @Override
+    public boolean isExist(String rssXml) {
+        return rssDao.isExist(rssXml);
+    }
 }
