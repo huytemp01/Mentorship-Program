@@ -28,22 +28,14 @@ GO
 
 CREATE TABLE [Post] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [thumbnail] nvarchar(MAX),
   [title] nvarchar(MAX),
-  [content] nvarchar(MAX),
-  [images] nvarchar(MAX),
+  [description] nvarchar(MAX),
   [link] nvarchar(MAX),
   [count_upvote] int,
   [count_downvote] int,
-  [author_id] int,
-  [post_type] int,
+  [creatorName] nvarchar(MAX),
+  [pubDate] datetime,
   [rss_link_id] int
-)
-GO
-
-CREATE TABLE [PostType] (
-  [id] int PRIMARY KEY IDENTITY(1, 1),
-  [type_name] nvarchar(MAX)
 )
 GO
 
@@ -51,13 +43,6 @@ CREATE TABLE [Post_Tag] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [tag_id] int,
   [post_id] int
-)
-GO
-
-CREATE TABLE [User_Follow_Author] (
-  [id] int PRIMARY KEY IDENTITY(1, 1),
-  [follower_id] int,
-  [author_id] int
 )
 GO
 
@@ -137,12 +122,6 @@ GO
 ALTER TABLE [User_Follow_Tag] ADD FOREIGN KEY ([tag_id]) REFERENCES [Tag] ([id])
 GO
 
-ALTER TABLE [Post] ADD FOREIGN KEY ([author_id]) REFERENCES [Users] ([id])
-GO
-
-ALTER TABLE [Post] ADD FOREIGN KEY ([post_type]) REFERENCES [PostType] ([id])
-GO
-
 ALTER TABLE [Post] ADD FOREIGN KEY ([rss_link_id]) REFERENCES [RssLink] ([id])
 GO
 
@@ -150,12 +129,6 @@ ALTER TABLE [Post_Tag] ADD FOREIGN KEY ([tag_id]) REFERENCES [Tag] ([id])
 GO
 
 ALTER TABLE [Post_Tag] ADD FOREIGN KEY ([post_id]) REFERENCES [Post] ([id])
-GO
-
-ALTER TABLE [User_Follow_Author] ADD FOREIGN KEY ([follower_id]) REFERENCES [Users] ([id])
-GO
-
-ALTER TABLE [User_Follow_Author] ADD FOREIGN KEY ([author_id]) REFERENCES [Users] ([id])
 GO
 
 ALTER TABLE [User_Vote_Post] ADD FOREIGN KEY ([user_id]) REFERENCES [Users] ([id])

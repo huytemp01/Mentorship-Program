@@ -16,7 +16,7 @@ public class PostDao {
 
     public void insert(List<Post> posts, RssLink link) {
         for(Post p:posts){
-            template.update("INSERT INTO post (title, link, rss_link_id) VALUES(?,?,?)",p.getTitle(), p.getLink(), link.getId());
+            template.update("INSERT INTO post (title, link, rss_link_id, description, creatorName, pubdate) VALUES(?,?,?,?,?,?)",p.getTitle(), p.getLink(), link.getId(), p.getDescription(),p.getCreatorName(),p.getPublicDateTime());
         }
     }
 }
