@@ -8,4 +8,20 @@ public class Source {
         this.id = id;
         this.domain_name = domain_name;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDomain_name() {
+        return domain_name;
+    }
+
+    public void setDomain_name(String domain_name) {
+        this.domain_name = domain_name;
+    }
 }

@@ -1,7 +1,10 @@
 package mentorship.dailydev.dailydev.service;
 
 
+import mentorship.dailydev.dailydev.domain.Category;
 import mentorship.dailydev.dailydev.domain.Post;
+import mentorship.dailydev.dailydev.domain.RssLink;
+import mentorship.dailydev.dailydev.domain.Source;
 import mentorship.dailydev.dailydev.repository.PostRepository;
 import mentorship.dailydev.dailydev.repository.RssRepository;
 import mentorship.dailydev.dailydev.repository.SourceRepository;
@@ -22,21 +25,20 @@ public class RssServiceImpl implements RssService{
     @Autowired
     private SourceRepository sourceRepository;
     @Override
-    public String addNewSource(String rssXml) throws ParserConfigurationException, IOException, SAXException {
-        List<Post> posts = Post.parse(rssXml);
-        String domain = URL.getDomainName(rssXml);
-        if(!isSourceDuplicated(domain)){
-            sourceRepository.save(domain);
-        }
+    public String addNewSource(String rssXml, Category category, Source source) throws ParserConfigurationException, IOException, SAXException {
+
 
         if(isRssDuplicated(rssXml)){
             return "rss already existed.";
         }
         else{
-            rssRepository.save(rssXml);
+            List<Post> posts = Post.parse(rssXml);
+            RssLink link = rssRepository.save(rssXml, category.getId(), source.getId());
+            postRepository.save(posts, link);
+            return "add the source successfully";
         }
-        postRepository.save(posts);
-        return "add the source successfully";
+
+
     }
 
     private boolean isRssDuplicated(String rssXml) {
