@@ -1,21 +1,21 @@
 CREATE TABLE [Category] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [subject_name] nvarchar(50)
+  [category_name] nvarchar(MAX)
 )
 GO
 
 CREATE TABLE [Tag] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [tag_name] nvarchar(50),
-  [Subject_id] int
+  [tag_name] nvarchar(MAX),
+  [category_id] int
 )
 GO
 
 CREATE TABLE [Users] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [email] nvarchar(50),
-  [password] nvarchar(50),
-  [user_name] nvarchar(50)
+  [email] nvarchar(MAX),
+  [password] nvarchar(MAX),
+  [user_name] nvarchar(MAX)
 )
 GO
 
@@ -28,11 +28,11 @@ GO
 
 CREATE TABLE [Post] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [thumbnail] text,
-  [title] nvarchar(50),
-  [content] text,
-  [images] text,
-  [link] text,
+  [thumbnail] nvarchar(MAX),
+  [title] nvarchar(MAX),
+  [content] nvarchar(MAX),
+  [images] nvarchar(MAX),
+  [link] nvarchar(MAX),
   [count_upvote] int,
   [count_downvote] int,
   [author_id] int,
@@ -43,7 +43,7 @@ GO
 
 CREATE TABLE [PostType] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [type_name] nvarchar(50)
+  [type_name] nvarchar(MAX)
 )
 GO
 
@@ -71,7 +71,7 @@ GO
 
 CREATE TABLE [VoteType] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [vote_value] nvarchar(50)
+  [vote_value] nvarchar(MAX)
 )
 GO
 
@@ -85,9 +85,9 @@ GO
 
 CREATE TABLE [Comment] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [link] text,
-  [image] text,
-  [content] text,
+  [link] nvarchar(MAX),
+  [image] nvarchar(MAX),
+  [content] nvarchar(MAX),
   [comment_reply_id] int
 )
 GO
@@ -102,21 +102,15 @@ GO
 
 CREATE TABLE [Source] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [domain_name] text
+  [domain_name] nvarchar(MAX)
 )
 GO
 
 CREATE TABLE [RssLink] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [rss_link] text,
-  [source_id] int
-)
-GO
-
-CREATE TABLE [RssLink_Category] (
-  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [rss_link] nvarchar(MAX),
   [category_id] int,
-  [rsslink_id] int
+  [source_id] int
 )
 GO
 
@@ -134,7 +128,7 @@ CREATE TABLE [User_Follow_Source] (
 )
 GO
 
-ALTER TABLE [Tag] ADD FOREIGN KEY ([Subject_id]) REFERENCES [Category] ([id])
+ALTER TABLE [Tag] ADD FOREIGN KEY ([category_id]) REFERENCES [Category] ([id])
 GO
 
 ALTER TABLE [User_Follow_Tag] ADD FOREIGN KEY ([user_id]) REFERENCES [Users] ([id])
@@ -194,13 +188,10 @@ GO
 ALTER TABLE [User_Vote_Comment] ADD FOREIGN KEY ([voteType]) REFERENCES [VoteType] ([id])
 GO
 
+ALTER TABLE [RssLink] ADD FOREIGN KEY ([category_id]) REFERENCES [Category] ([id])
+GO
+
 ALTER TABLE [RssLink] ADD FOREIGN KEY ([source_id]) REFERENCES [Source] ([id])
-GO
-
-ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([category_id]) REFERENCES [Category] ([id])
-GO
-
-ALTER TABLE [RssLink_Category] ADD FOREIGN KEY ([rsslink_id]) REFERENCES [RssLink] ([id])
 GO
 
 ALTER TABLE [User_RssLink] ADD FOREIGN KEY ([rsslink_id]) REFERENCES [RssLink] ([id])
