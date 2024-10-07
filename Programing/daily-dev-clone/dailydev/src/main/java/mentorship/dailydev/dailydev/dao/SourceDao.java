@@ -18,14 +18,15 @@ public class SourceDao {
         template.update("INSERT INTO source(domain_name) VALUES(?)", domain);
     }
 
-    public boolean isExist(String domain) {
+    public Source getBy(String domain) {
         try{
-            Source source = template.queryForObject("SELECT id, domain_name FROM source WHERE domain_name = ?", new SourceRowMapper(), domain);
-            return true;
+            return template.queryForObject("SELECT id, domain_name FROM source WHERE domain_name = ?", new SourceRowMapper(), domain);
+
         }
         catch (EmptyResultDataAccessException e){
-            return false;
+            return null;
         }
 
     }
+
 }
