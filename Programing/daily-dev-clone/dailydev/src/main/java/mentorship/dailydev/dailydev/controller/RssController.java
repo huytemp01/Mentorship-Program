@@ -22,15 +22,14 @@ public class RssController {
     private RssService rssService;
     @Autowired
     private SourceService sourceService;
-
     @Autowired
     private CategoryService categoryService;
     @PostMapping("rss")
-    public String add(@RequestParam String rssXml,@RequestParam String category) throws ParserConfigurationException, IOException, SAXException {
-        String domain = URL.getDomainName(rssXml);
+    public String add(@RequestParam String url,@RequestParam String category) throws ParserConfigurationException, IOException, SAXException {
+        String domain = URL.getDomainName(url);
         Source source = sourceService.getOrSave(domain);
         Category cate = categoryService.getOrSave(category);
-        String message = rssService.addNewSource(rssXml, cate, source);
+        String message = rssService.addNewSource(url, cate, source);
         return message ;
     }
 

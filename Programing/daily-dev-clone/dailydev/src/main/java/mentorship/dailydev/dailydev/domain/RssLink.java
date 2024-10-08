@@ -9,6 +9,7 @@ public class RssLink {
         this.rssLink = rssLink;
     }
 
+
     public int getId() {
         return id;
     }
@@ -24,4 +25,5 @@ public class RssLink {
     public void setRssLink(String rssLink) {
         this.rssLink = rssLink;
     }
+
 }

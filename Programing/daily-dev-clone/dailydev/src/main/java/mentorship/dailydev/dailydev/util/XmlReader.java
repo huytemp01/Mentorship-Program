@@ -1,6 +1,7 @@
 package mentorship.dailydev.dailydev.util;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +15,15 @@ public class XmlReader {
         Document doc = builder.parse(xmlUrl);
         doc.getDocumentElement().normalize();
         return doc;
+    }
+
+    public static boolean isRssLink(String url) throws ParserConfigurationException, IOException, SAXException {
+        Document doc = readXml(url);
+        NodeList list = doc.getElementsByTagName("rss");
+        if(list.getLength() == 0){
+            return false;
+        }
+        return true;
     }
 
 
