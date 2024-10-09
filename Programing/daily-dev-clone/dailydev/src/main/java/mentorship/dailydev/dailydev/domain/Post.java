@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Post {
     private int id;
@@ -22,7 +23,19 @@ public class Post {
     private LocalDateTime publicDateTime;
     private List<Category> categories;
 
+    private List<Tag> tags;
+
     public Post(){}
+
+    public Post(int id, String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
+        this.id = id;
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.creatorName = creatorName;
+        this.publicDateTime = publicDateTime;
+        this.categories = categories;
+    }
 
     public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
         this.title = title;
@@ -32,6 +45,9 @@ public class Post {
         this.publicDateTime = publicDateTime;
         this.categories = categories;
     }
+
+
+
 
     public int getId() {
         return id;
@@ -87,6 +103,27 @@ public class Post {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return id == post.id && Objects.equals(link, post.link);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, link);
     }
 
     ///////////////////////////////////

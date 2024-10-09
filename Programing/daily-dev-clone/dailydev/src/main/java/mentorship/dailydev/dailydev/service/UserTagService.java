@@ -8,4 +8,8 @@ public interface UserTagService {
     void followTags(int userId, List<Tag> tags);
 
     List<Tag> getFollowTags(int userId);
+
+    List<Tag> getFollowTags(String email);
+
+    boolean haveFollowAnyTags(int id);
 }

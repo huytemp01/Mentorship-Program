@@ -19,4 +19,20 @@ public class UserTagServiceImpl implements UserTagService{
     public List<Tag> getFollowTags(int userId) {
         return userTagRepository.getFollowTags(userId);
     }
+
+    @Override
+    public List<Tag> getFollowTags(String email) {
+        return userTagRepository.getFollowTags(email);
+    }
+
+    @Override
+    public boolean haveFollowAnyTags(int id) {
+        List<Tag> tags = userTagRepository.getFollowTags(id);
+        if(tags.size() == 0){
+            return false;
+        }
+        return true;
+    }
+
+
 }

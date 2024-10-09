@@ -15,4 +15,8 @@ public interface UserService {
     String changePassword(int id, String newPassword, String oldPassword);
 
     boolean login(UserDTO userDto);
+
+    boolean isFirstLogin(String email);
+
+    void updateLoginInfo(String email);
 }

@@ -54,6 +54,20 @@ public class UserServiceImpl implements UserService{
         return isPasswordMatching(user.getPassword(), userDto.getPassword());
     }
 
+    @Override
+    public boolean isFirstLogin(String email) {
+        int isFirstLogin =  userRepository.isFirstLogin(email);
+        if(isFirstLogin == 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void updateLoginInfo(String email) {
+        userRepository.updateLoginInfo(email);
+    }
+
     private boolean isPasswordMatching(String password, String password1) {
         return password.equals(password1);
     }

@@ -12,4 +12,8 @@ public interface UserRepository {
     User getById(int id);
 
     void updatePassword(int id, String newPassword);
+
+    int isFirstLogin(String email);
+
+    void updateLoginInfo(String email);
 }

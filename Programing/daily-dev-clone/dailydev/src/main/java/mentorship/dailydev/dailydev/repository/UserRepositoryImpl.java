@@ -33,4 +33,14 @@ public class UserRepositoryImpl implements UserRepository{
     public void updatePassword(int id, String newPassword) {
          userDao.updatePassword(id, newPassword);
     }
+
+    @Override
+    public int isFirstLogin(String email) {
+        return userDao.isFirstLogin(email);
+    }
+
+    @Override
+    public void updateLoginInfo(String email) {
+        userDao.updateLoginInfo(email);
+    }
 }

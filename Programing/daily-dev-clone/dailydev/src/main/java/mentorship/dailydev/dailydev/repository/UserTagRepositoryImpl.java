@@ -19,4 +19,9 @@ public class UserTagRepositoryImpl implements UserTagRepository{
     public List<Tag> getFollowTags(int userId) {
         return userTagDao.queryTagsUserFollow(userId);
     }
+
+    @Override
+    public List<Tag> getFollowTags(String email) {
+        return userTagDao.queryTagsUserFollow(email);
+    }
 }

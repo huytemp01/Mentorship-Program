@@ -8,4 +8,5 @@ public interface UserTagRepository {
     void save(int userId, List<Tag> tagId);
 
     List<Tag> getFollowTags(int userId);
+    List<Tag> getFollowTags(String email);
 }

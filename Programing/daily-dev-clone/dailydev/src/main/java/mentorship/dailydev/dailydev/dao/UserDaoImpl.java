@@ -13,7 +13,7 @@ public class UserDaoImpl {
     private JdbcTemplate template;
 
     public void save(User user){
-        template.update("INSERT INTO users(email,password, user_name) VALUES(?,?,?)", user.getEmail(), user.getPassword(), user.getUserName());
+        template.update("INSERT INTO users(email,password, user_name, is_first_login) VALUES(?,?,?,?)", user.getEmail(), user.getPassword(), user.getUserName(), 0);
     }
 
     public User findByEmail(String email) {
@@ -40,5 +40,13 @@ public class UserDaoImpl {
 
     public void updatePassword(int id, String newPassword) {
         template.update("UPDATE users SET password =? WHERE id=?", newPassword, id);
+    }
+
+    public int isFirstLogin(String email) {
+        return template.queryForObject("SELECT is_first_login FROM users WHERE email = ?", Integer.class, email);
+    }
+
+    public void updateLoginInfo(String email) {
+        template.update("UPDATE users SET is_first_login=? WHERE email=?", 1,email);
     }
 }
