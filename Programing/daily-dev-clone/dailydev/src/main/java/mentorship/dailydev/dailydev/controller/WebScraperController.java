@@ -31,7 +31,7 @@ public class WebScraperController {
     @Autowired
     private CategoryService categoryService;
     @PostMapping("addRss/website")
-    public void addRssLinkFromWebsite(@RequestParam String url) throws IOException, ParserConfigurationException, SAXException {
+    public String addRssLinkFromWebsite(@RequestParam String url) throws IOException, ParserConfigurationException, SAXException {
         List<RssLinkDTO> links = webScraperService.getAllRssLinkFrom(url);
         for(RssLinkDTO rssXml: links){
             String domain = URL.getDomainName(rssXml.getLink());
@@ -39,6 +39,7 @@ public class WebScraperController {
             Category cate = categoryService.getOrSave(rssXml.getCategory_name());
             rssService.addNewSource(rssXml.getLink(), cate, source);
         }
+        return "Add successfully";
     }
 
     @GetMapping("extractRss")

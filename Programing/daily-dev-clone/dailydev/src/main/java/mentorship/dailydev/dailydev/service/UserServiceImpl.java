@@ -1,6 +1,7 @@
 package mentorship.dailydev.dailydev.service;
 
 import mentorship.dailydev.dailydev.domain.User;
+import mentorship.dailydev.dailydev.domain.dto.UserDTO;
 import mentorship.dailydev.dailydev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,15 @@ public class UserServiceImpl implements UserService{
 
         userRepository.updatePassword(id, newPassword);
         return "success";
+    }
+
+    @Override
+    public boolean login(UserDTO userDto) {
+        User user = userRepository.findByEmail(userDto.getEmail());
+        return isPasswordMatching(user.getPassword(), userDto.getPassword());
+    }
+
+    private boolean isPasswordMatching(String password, String password1) {
+        return password.equals(password1);
     }
 }
