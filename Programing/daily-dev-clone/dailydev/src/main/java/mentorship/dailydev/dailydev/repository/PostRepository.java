@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PostRepository {
     void save(List<Post> posts, RssLink link);
+
+    List<Post> getPostFrom(String domain);
 }

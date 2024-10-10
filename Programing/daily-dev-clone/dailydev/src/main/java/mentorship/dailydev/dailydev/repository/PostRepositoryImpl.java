@@ -15,4 +15,9 @@ public class PostRepositoryImpl implements PostRepository{
     public void save(List<Post> posts, RssLink link) {
         postDao.insert(posts, link);
     }
+
+    @Override
+    public List<Post> getPostFrom(String domain) {
+        return postDao.getPostFrom(domain);
+    }
 }

@@ -3,6 +3,7 @@ package mentorship.dailydev.dailydev.dao;
 import mentorship.dailydev.dailydev.domain.Post;
 import mentorship.dailydev.dailydev.domain.RssLink;
 import mentorship.dailydev.dailydev.domain.TagPost;
+import mentorship.dailydev.dailydev.rowmapper.PostRowMapper;
 import mentorship.dailydev.dailydev.rowmapper.TagPostRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +31,16 @@ public class PostDao {
                 " JOIN users u on u.id = uft.user_id" +
                 " WHERE u.id = ?", new TagPostRowMapper(), userId);
 
+        return list;
+    }
+
+    public List<Post> getPostFrom(String domain) {
+        List<Post> list = template.query("SELECT t.id as tagId, t.tag_name as tagName, p.id as postId,p.title,p.description,p.link,p.count_upvote,p.count_downvote,p.creatorName,p.pubDate,p.rss_link_id" +
+                " FROM post p JOIN post_tag pt ON p.id = pt.post_id " +
+                " JOIN tag t ON t.id = pt.tag_id " +
+                " JOIN rsslink r ON p.rss_link_id = r.id " +
+                " JOIN source s ON s.id = r.source_id " +
+                " WHERE s.domain_name = ?" , new PostRowMapper(), domain);
         return list;
     }
 }
