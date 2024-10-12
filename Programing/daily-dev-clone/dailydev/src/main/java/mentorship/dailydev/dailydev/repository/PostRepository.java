@@ -9,4 +9,6 @@ public interface PostRepository {
     void save(List<Post> posts, RssLink link);
 
     List<Post> getPostFrom(String domain);
+
+    List<Post> getMostViews();
 }

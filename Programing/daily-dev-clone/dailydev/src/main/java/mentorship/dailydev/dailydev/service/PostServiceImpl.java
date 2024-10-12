@@ -30,4 +30,22 @@ public class PostServiceImpl implements PostService{
         }
         return posts;
     }
+
+    @Override
+    public List<Post> getTheMostViews() {
+        List<Post> posts = postRepository.getMostViews();
+        Map<String,Post> postMap = new HashMap<>();
+        for(Post p:posts){
+            String link = p.getLink();
+            if(postMap.containsKey(link)){
+                Post post = postMap.get(link);
+                post.addTag(p.getTags().get(0));
+            }
+            else {
+                postMap.put(link, p);
+            }
+
+        }
+        return posts;
+    }
 }

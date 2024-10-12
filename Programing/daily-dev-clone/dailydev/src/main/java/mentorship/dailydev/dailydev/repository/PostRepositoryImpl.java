@@ -20,4 +20,9 @@ public class PostRepositoryImpl implements PostRepository{
     public List<Post> getPostFrom(String domain) {
         return postDao.getPostFrom(domain);
     }
+
+    @Override
+    public List<Post> getMostViews() {
+        return postDao.getPostsOrderByViewCount();
+    }
 }

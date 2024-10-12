@@ -20,4 +20,10 @@ public class PostController {
         List<Post> posts = postService.getPostsFromSource(domain);
         return new  ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    @GetMapping("/posts/most-viewed")
+    public ResponseEntity<List<Post>> getTheMostViews(){
+        List<Post> posts = postService.getTheMostViews();
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
 }

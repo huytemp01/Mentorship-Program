@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PostService {
     List<Post> getPostsFromSource(String domain);
+
+    List<Post> getTheMostViews();
 }

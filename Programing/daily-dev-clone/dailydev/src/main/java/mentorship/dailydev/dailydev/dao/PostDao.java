@@ -19,7 +19,7 @@ public class PostDao {
 
     public void insert(List<Post> posts, RssLink link) {
         for(Post p:posts){
-            template.update("INSERT INTO post (title, link, rss_link_id, description, creatorName, pubdate) VALUES(?,?,?,?,?,?)",p.getTitle(), p.getLink(), link.getId(), p.getDescription(),p.getCreatorName(),p.getPublicDateTime());
+            template.update("INSERT INTO post (title, link, rss_link_id, description, creatorName, pubdate, view_count) VALUES(?,?,?,?,?,?,?)",p.getTitle(), p.getLink(), link.getId(), p.getDescription(),p.getCreatorName(),p.getPublicDateTime(),0);
         }
     }
 
@@ -41,6 +41,16 @@ public class PostDao {
                 " JOIN rsslink r ON p.rss_link_id = r.id " +
                 " JOIN source s ON s.id = r.source_id " +
                 " WHERE s.domain_name = ?" , new PostRowMapper(), domain);
+        return list;
+    }
+
+    public List<Post> getPostsOrderByViewCount() {
+        List<Post> list = template.query("SELECT t.id as tagId, t.tag_name as tagName, p.id as postId,p.title,p.description,p.link,p.count_upvote,p.count_downvote,p.creatorName,p.pubDate,p.rss_link_id" +
+                " FROM post p JOIN post_tag pt ON p.id = pt.post_id " +
+                " JOIN tag t ON t.id = pt.tag_id " +
+                " JOIN rsslink r ON p.rss_link_id = r.id " +
+                " JOIN source s ON s.id = r.source_id " +
+                " ORDER BY p.view_count " , new PostRowMapper());
         return list;
     }
 }
