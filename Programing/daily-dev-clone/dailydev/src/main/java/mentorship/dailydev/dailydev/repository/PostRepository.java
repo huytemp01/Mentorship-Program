@@ -11,4 +11,6 @@ public interface PostRepository {
     List<Post> getPostFrom(String domain);
 
     List<Post> getMostViews();
+
+    List<Post> getPostByRssLink(RssLink rssLink);
 }

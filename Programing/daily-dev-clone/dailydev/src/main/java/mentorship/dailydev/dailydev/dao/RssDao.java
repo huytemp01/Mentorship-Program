@@ -7,6 +7,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RssDao {
     @Autowired
@@ -28,5 +30,9 @@ public class RssDao {
 
     public RssLink getBy(String rssXml) {
         return template.queryForObject("SELECT id, rss_link FROM rsslink WHERE rss_link = ?", new RssLinkRowMapper(), rssXml);
+    }
+
+    public List<RssLink> getAllRssLinks() {
+        return template.query("SELECT id, rss_link FROM rsslink", new RssLinkRowMapper());
     }
 }

@@ -25,4 +25,9 @@ public class PostRepositoryImpl implements PostRepository{
     public List<Post> getMostViews() {
         return postDao.getPostsOrderByViewCount();
     }
+
+    @Override
+    public List<Post> getPostByRssLink(RssLink rssLink) {
+        return postDao.getPostByRssLink(rssLink);
+    }
 }

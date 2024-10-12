@@ -5,6 +5,8 @@ import mentorship.dailydev.dailydev.domain.RssLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RssRepositoryImpl implements RssRepository{
     @Autowired
@@ -18,5 +20,10 @@ public class RssRepositoryImpl implements RssRepository{
     @Override
     public boolean isExist(String rssXml) {
         return rssDao.isExist(rssXml);
+    }
+
+    @Override
+    public List<RssLink> getAllRssLinks() {
+        return rssDao.getAllRssLinks();
     }
 }

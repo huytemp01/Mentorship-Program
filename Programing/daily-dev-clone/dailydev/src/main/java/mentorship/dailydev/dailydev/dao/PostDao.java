@@ -3,6 +3,7 @@ package mentorship.dailydev.dailydev.dao;
 import mentorship.dailydev.dailydev.domain.Post;
 import mentorship.dailydev.dailydev.domain.RssLink;
 import mentorship.dailydev.dailydev.domain.TagPost;
+import mentorship.dailydev.dailydev.rowmapper.OnlyPostRowMapper;
 import mentorship.dailydev.dailydev.rowmapper.PostRowMapper;
 import mentorship.dailydev.dailydev.rowmapper.TagPostRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,10 @@ public class PostDao {
                 " JOIN source s ON s.id = r.source_id " +
                 " ORDER BY p.view_count " , new PostRowMapper());
         return list;
+    }
+
+    public List<Post> getPostByRssLink(RssLink rssLink) {
+        return template.query("SELECT p.id as postId,p.title,p.description,p.link,p.count_upvote,p.count_downvote,p.creatorName,p.pubDate,p.rss_link_id" +
+                " FROM post p WHERE rss_link_id = ?", new OnlyPostRowMapper(), rssLink.getId() );
     }
 }
