@@ -26,7 +26,7 @@ public class TagPostRowMapper implements RowMapper<TagPost> {
         String link = rs.getString("link");
         String creatorName = rs.getString("creatorName");
         LocalDateTime pubDate= rs.getTimestamp("pubDate").toLocalDateTime();
-        Post post = new Post(postId,postTitle,link,description,creatorName,pubDate,null);
+        Post post = new Post(postId,postTitle,link,description,creatorName,pubDate);
 
         return new TagPost(tag,post);
     }

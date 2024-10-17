@@ -13,7 +13,10 @@ public class User {
         this.userName = userName;
     }
 
-
+    public User(int id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
 
     public int getId() {
         return id;

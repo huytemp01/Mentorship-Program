@@ -21,29 +21,28 @@ public class Post {
     private String description;
     private String creatorName;
     private LocalDateTime publicDateTime;
-    private List<Category> categories;
+//    private List<Category> categories;
 
     private List<Tag> tags = new ArrayList<>();
 
     public Post(){}
 
-    public Post(int id, String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
+    public Post(int id, String title, String link, String description, String creatorName, LocalDateTime publicDateTime) {
         this.id = id;
         this.title = title;
         this.link = link;
         this.description = description;
         this.creatorName = creatorName;
         this.publicDateTime = publicDateTime;
-        this.categories = categories;
+//        this.categories = categories;
     }
 
-    public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime, List<Category> categories) {
+    public Post(String title, String link, String description, String creatorName, LocalDateTime publicDateTime) {
         this.title = title;
         this.link = link;
         this.description = description;
         this.creatorName = creatorName;
         this.publicDateTime = publicDateTime;
-        this.categories = categories;
     }
 
 
@@ -97,13 +96,13 @@ public class Post {
         this.publicDateTime = publicDateTime;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
+//    public List<Category> getCategories() {
+//        return categories;
+//    }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+//    public void setCategories(List<Category> categories) {
+//        this.categories = categories;
+//    }
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
@@ -223,9 +222,9 @@ public class Post {
         String description = Post.getDescription(item);
         LocalDateTime pubDate = Post.getPublicDate(item);
         String creator = Post.getCreator(item);
-        List<Category> categories = Post.getCategories(item);
+//        List<Category> categories = Post.getCategories(item);
 
-        return new Post(title,link,description, creator, pubDate, categories);
+        return new Post(title,link,description, creator, pubDate);
     }
 
     public static List<Post> parse(String xmlUrl) throws IOException, SAXException, ParserConfigurationException {
