@@ -20,7 +20,7 @@ public class TagPostServiceImpl implements TagPostService{
         HashMap<Post, List<Tag>> map = new HashMap<>();
         List<TagPost> list = tagPostRepository.getPostsForUser(userId);
         for(TagPost tp: list){
-            if(map.get(tp.getPost()) == null){
+            if(!map.containsKey(tp.getPost())){
                 List<Tag> tags = new ArrayList<>();
                 tags.add(tp.getTag());
                 map.put(tp.getPost(), tags);

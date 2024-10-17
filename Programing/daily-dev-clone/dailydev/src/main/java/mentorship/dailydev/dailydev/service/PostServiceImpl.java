@@ -33,7 +33,12 @@ public class PostServiceImpl implements PostService{
             }
 
         }
-        return posts;
+        List<Post> uniquePosts = new ArrayList<>();
+        for(Post p:postMap.values()){
+            uniquePosts.add(p);
+        }
+
+        return uniquePosts;
     }
 
     @Override

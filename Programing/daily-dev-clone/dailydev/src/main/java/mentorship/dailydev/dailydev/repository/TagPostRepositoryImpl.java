@@ -13,6 +13,8 @@ public class TagPostRepositoryImpl implements  TagPostRepository{
     private PostDao postDao;
     @Override
     public List<TagPost> getPostsForUser(int userId) {
-        return postDao.getPostForUser(userId);
+        List<TagPost> posts =  postDao.getPostForUser(userId);
+        return posts;
+//        return postDao.getPostForUser(userId);
     }
 }

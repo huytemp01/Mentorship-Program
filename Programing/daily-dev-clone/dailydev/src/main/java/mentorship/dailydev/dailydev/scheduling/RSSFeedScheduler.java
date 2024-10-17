@@ -23,7 +23,7 @@ public class RSSFeedScheduler {
     private RssService rssService;
     @Autowired
     private PostService postService;
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 600000)
     public void getPost(){
         int numThreads = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);

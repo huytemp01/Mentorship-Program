@@ -229,9 +229,6 @@ public class Post {
     }
 
     public static List<Post> parse(String xmlUrl) throws IOException, SAXException, ParserConfigurationException {
-//        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//        Document doc = builder.parse(xmlUrl);
-//        doc.getDocumentElement().normalize();
         Document doc = XmlReader.readXml(xmlUrl);
         NodeList list = doc.getElementsByTagName("item");
         return Post.parse(list);
