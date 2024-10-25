@@ -6,7 +6,7 @@ import mentorship.dailydev.dailydev.domain.RssLink;
 import java.util.List;
 
 public interface PostRepository {
-    void save(List<Post> posts, RssLink link);
+    int save(List<Post> posts, RssLink link);
 
     List<Post> getPostFrom(String domain);
 

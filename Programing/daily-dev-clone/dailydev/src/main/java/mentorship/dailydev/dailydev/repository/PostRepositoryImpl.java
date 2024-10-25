@@ -12,8 +12,8 @@ public class PostRepositoryImpl implements PostRepository{
     @Autowired
     private PostDao postDao;
     @Override
-    public void save(List<Post> posts, RssLink link) {
-        postDao.insert(posts, link);
+    public int save(List<Post> posts, RssLink link) {
+        return postDao.insert(posts, link);
     }
 
     @Override

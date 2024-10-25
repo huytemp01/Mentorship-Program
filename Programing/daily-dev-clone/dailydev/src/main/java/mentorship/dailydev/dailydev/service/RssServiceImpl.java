@@ -26,8 +26,6 @@ public class RssServiceImpl implements RssService{
     private SourceRepository sourceRepository;
     @Override
     public String addNewSource(String rssXml, Category category, Source source) throws ParserConfigurationException, IOException, SAXException {
-
-
         if(isRssDuplicated(rssXml)){
             return "rss already existed.";
         }
@@ -54,4 +52,5 @@ public class RssServiceImpl implements RssService{
           return sourceRepository.isExist(domain);
 
     }
+
 }

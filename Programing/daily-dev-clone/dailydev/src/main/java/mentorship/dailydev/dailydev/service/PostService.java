@@ -13,5 +13,5 @@ public interface PostService {
 
     List<Post> getTheMostViews();
 
-    void addNewPostsFromRssLink(RssLink rssLink) throws IOException, ParserConfigurationException, SAXException;
+    int addNewPostsFromRssLink(RssLink rssLink) throws IOException, ParserConfigurationException, SAXException;
 }

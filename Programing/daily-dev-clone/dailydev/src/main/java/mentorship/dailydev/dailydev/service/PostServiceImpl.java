@@ -60,7 +60,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public void addNewPostsFromRssLink(RssLink rssLink) throws IOException, ParserConfigurationException, SAXException {
+    public int addNewPostsFromRssLink(RssLink rssLink) throws IOException, ParserConfigurationException, SAXException {
         List<Post> newPosts = Post.parse(rssLink.getRssLink());
         List<Post> oldPosts = postRepository.getPostByRssLink(rssLink);
         List<Post> uniquePost = new ArrayList<>();
@@ -73,6 +73,6 @@ public class PostServiceImpl implements PostService{
                 uniquePost.add(post);
             }
         }
-        postRepository.save(newPosts, rssLink);
+        return postRepository.save(uniquePost, rssLink);
     }
 }

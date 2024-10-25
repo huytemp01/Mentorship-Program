@@ -2,8 +2,10 @@ package mentorship.dailydev.dailydev.scheduling;
 
 import mentorship.dailydev.dailydev.domain.Post;
 import mentorship.dailydev.dailydev.domain.RssLink;
+import mentorship.dailydev.dailydev.domain.Source;
 import mentorship.dailydev.dailydev.service.PostService;
 import mentorship.dailydev.dailydev.service.RssService;
+import mentorship.dailydev.dailydev.service.SourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 //https://dzone.com/articles/optimizing-java-applications-parallel-processing-a
-@Component
+
 public class RSSFeedScheduler {
     @Autowired
     private RssService rssService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private SourceService sourceService;
     @Scheduled(fixedRate = 600000)
     public void getPost(){
         int numThreads = Runtime.getRuntime().availableProcessors();
@@ -48,4 +52,5 @@ public class RSSFeedScheduler {
         System.out.println("===============");
 
     }
+
 }

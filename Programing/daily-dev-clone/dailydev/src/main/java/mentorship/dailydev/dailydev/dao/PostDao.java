@@ -18,10 +18,12 @@ public class PostDao {
     private JdbcTemplate template;
 
 
-    public void insert(List<Post> posts, RssLink link) {
+    public int insert(List<Post> posts, RssLink link) {
+        int count = 0;
         for(Post p:posts){
-            template.update("INSERT INTO post (title, link, rss_link_id, description, creatorName, pubdate, view_count) VALUES(?,?,?,?,?,?,?)",p.getTitle(), p.getLink(), link.getId(), p.getDescription(),p.getCreatorName(),p.getPublicDateTime(),0);
+            count += template.update("INSERT INTO post (title, link, rss_link_id, description, creatorName, pubdate, view_count) VALUES(?,?,?,?,?,?,?)",p.getTitle(), p.getLink(), link.getId(), p.getDescription(),p.getCreatorName(),p.getPublicDateTime(),0);
         }
+        return count;
     }
 
     public List<TagPost> getPostForUser(int userId) {

@@ -13,4 +13,5 @@ public interface RssService {
     public String addNewSource(String rssXml, Category category, Source source) throws ParserConfigurationException, IOException, SAXException;
 
     List<RssLink> getAllRssLinks();
+
 }
