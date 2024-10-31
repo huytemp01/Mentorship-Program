@@ -30,7 +30,7 @@ public class WebScraperController {
     private SourceService sourceService;
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("addRss/website")
+    @PostMapping("/posts/rss")
     public String addRssLinkFromWebsite(@RequestParam String url) throws IOException, ParserConfigurationException, SAXException {
         List<RssLinkDTO> links = webScraperService.getAllRssLinkFrom(url);
         for(RssLinkDTO rssXml: links){
@@ -42,7 +42,7 @@ public class WebScraperController {
         return "Add successfully";
     }
 
-    @GetMapping("extractRss")
+    @GetMapping("rss")
     public List<RssLinkDTO> extractRssLinkFromWebsite(@RequestParam String url) throws IOException {
         List<RssLinkDTO> links = webScraperService.getAllRssLinkFrom(url);
         return links;

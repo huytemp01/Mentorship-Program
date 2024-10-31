@@ -15,7 +15,7 @@ import java.util.List;
 public class CommentController {
     @Autowired
     private CommentService commentService;
-    @GetMapping("/post/{postId}/comments")
+    @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<List<Comment>> getCommentFromPost(@PathVariable int postId){
         List<Comment> comments = commentService.getCommentsByPostId(postId);
         return new ResponseEntity<>(comments, HttpStatus.OK);

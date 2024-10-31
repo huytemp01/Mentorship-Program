@@ -21,7 +21,7 @@ public class TagPostController {
     @Autowired
     private TagPostService tagPostService;
 
-    @GetMapping("/user/{id}/tag/post")
+    @GetMapping("/users/{id}/tags/posts")
     public ResponseEntity<List<Post>> getPostsFromTagsFollowedByUser(@PathVariable int id){
         List<Post> posts =  tagPostService.getPostsFromTagsFollowedByUser(id);
         return new ResponseEntity<>(posts, HttpStatus.OK);

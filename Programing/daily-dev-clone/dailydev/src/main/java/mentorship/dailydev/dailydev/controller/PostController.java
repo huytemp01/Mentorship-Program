@@ -15,7 +15,7 @@ import java.util.List;
 public class PostController {
     @Autowired
     private PostService postService;
-    @GetMapping("/source/posts")
+    @GetMapping("/sources/posts")
     public ResponseEntity<List<Post>> getAllPostsFromSource(@RequestParam String domain){
         List<Post> posts = postService.getPostsFromSource(domain);
         return new  ResponseEntity<>(posts, HttpStatus.OK);

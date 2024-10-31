@@ -26,4 +26,19 @@ public class RssRepositoryImpl implements RssRepository{
     public List<RssLink> getAllRssLinks() {
         return rssDao.getAllRssLinks();
     }
+
+    @Override
+    public List<RssLink> getRssLinks(int limit, int offset) {
+        return rssDao.getLinks(limit, offset);
+    }
+
+    @Override
+    public int count() {
+        return rssDao.count();
+    }
+
+    @Override
+    public RssLink getById(int rssId) {
+        return rssDao.getById(rssId);
+    }
 }

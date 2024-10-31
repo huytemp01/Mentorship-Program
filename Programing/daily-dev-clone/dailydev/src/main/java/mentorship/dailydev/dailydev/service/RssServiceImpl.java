@@ -44,6 +44,21 @@ public class RssServiceImpl implements RssService{
         return rssRepository.getAllRssLinks();
     }
 
+    @Override
+    public List<RssLink> getRssLink(int limit, int offset) {
+        return rssRepository.getRssLinks(limit, offset);
+    }
+
+    @Override
+    public int count() {
+        return rssRepository.count();
+    }
+
+    @Override
+    public RssLink getById(int rssId) {
+        return rssRepository.getById(rssId);
+    }
+
     private boolean isRssDuplicated(String rssXml) {
         return rssRepository.isExist(rssXml);
     }

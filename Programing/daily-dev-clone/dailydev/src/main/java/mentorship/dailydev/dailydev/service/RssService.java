@@ -14,4 +14,9 @@ public interface RssService {
 
     List<RssLink> getAllRssLinks();
 
+    List<RssLink> getRssLink(int limit, int offset);
+
+    int count();
+
+    RssLink getById(int rssId);
 }

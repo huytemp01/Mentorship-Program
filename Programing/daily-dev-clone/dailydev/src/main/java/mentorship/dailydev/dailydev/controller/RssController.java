@@ -41,7 +41,7 @@ public class RssController {
         return message ;
     }
 
-    @PostMapping("test")
+    @PostMapping("/rss/posts")
     public ResponseEntity<List<RssLinkNewPostCount>> test() throws ParserConfigurationException, IOException, SAXException {
         List<RssLinkNewPostCount> countUpdates=  fetchRssService.updateNewPosts();
         return new ResponseEntity<>(countUpdates, HttpStatus.OK);

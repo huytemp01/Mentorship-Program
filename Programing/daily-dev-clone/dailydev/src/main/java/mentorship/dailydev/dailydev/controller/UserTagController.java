@@ -13,7 +13,7 @@ import java.util.List;
 public class UserTagController {
     @Autowired
     private UserTagService userTagService;
-    @PostMapping("user/{id}/tags")
+    @PostMapping("users/{id}/tags")
     public void followTags(@PathVariable int id, @RequestBody List<TagDTO> tagsDTO){
         List<Tag> tags = new ArrayList<>();
         for(TagDTO t:tagsDTO){

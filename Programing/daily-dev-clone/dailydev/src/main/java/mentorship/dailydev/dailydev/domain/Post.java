@@ -1,5 +1,6 @@
 package mentorship.dailydev.dailydev.domain;
 
+
 import mentorship.dailydev.dailydev.util.XmlReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -13,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 public class Post {
     private int id;
     private String title;

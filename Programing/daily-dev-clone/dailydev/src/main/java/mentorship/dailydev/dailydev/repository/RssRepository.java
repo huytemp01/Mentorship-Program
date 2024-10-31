@@ -10,4 +10,10 @@ public interface RssRepository {
     boolean isExist(String rssXml);
 
     List<RssLink> getAllRssLinks();
+
+    List<RssLink> getRssLinks(int limit, int offset);
+
+    int count();
+
+    RssLink getById(int rssId);
 }

@@ -35,4 +35,16 @@ public class RssDao {
     public List<RssLink> getAllRssLinks() {
         return template.query("SELECT id, rss_link FROM rsslink", new RssLinkRowMapper());
     }
+
+    public List<RssLink> getLinks(int limit, int offset) {
+        return template.query("SELECT id, rss_link FROM rsslink ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY", new RssLinkRowMapper(), offset, limit);
+    }
+
+    public int count() {
+        return template.queryForObject("SELECT Count(id) FROM rsslink", Integer.class);
+    }
+
+    public RssLink getById(int rssId) {
+        return template.queryForObject("SELECT id, rss_link FROM rsslink WHERE id=?", new RssLinkRowMapper(), rssId);
+    }
 }
